@@ -1,0 +1,128 @@
+# Prisma Database Configuration
+# =============================
+
+# Database URL - Choose one based on your database type
+# PostgreSQL
+DATABASE_URL="postgresql://username:password@localhost:5432/database_name?schema=public"
+
+# MySQL
+# DATABASE_URL="mysql://username:password@localhost:3306/database_name"
+
+# SQLite
+# DATABASE_URL="file:./dev.db"
+
+# SQL Server
+# DATABASE_URL="sqlserver://localhost:1433;database=database_name;user=username;password=password;trustServerCertificate=true"
+
+# MongoDB
+# DATABASE_URL="mongodb://username:password@localhost:27017/database_name"
+
+# CockroachDB
+# DATABASE_URL="postgresql://username:password@localhost:26257/database_name?sslmode=require"
+
+# =============================
+# Environment-specific URLs
+# =============================
+
+# Development Database
+DATABASE_URL_DEV="postgresql://dev_user:dev_password@localhost:5432/avadhi_dev?schema=public"
+
+# Test Database
+DATABASE_URL_TEST="postgresql://test_user:test_password@localhost:5432/avadhi_test?schema=public"
+
+# Production Database
+DATABASE_URL_PROD="postgresql://prod_user:prod_password@your-prod-host:5432/avadhi_prod?schema=public"
+
+# =============================
+# Prisma Configuration
+# =============================
+
+# Prisma Schema Location (if not in default location)
+# PRISMA_SCHEMA_PATH="./packages/store/prisma/schema.prisma"
+
+# Prisma Client Location (if custom)
+# PRISMA_CLIENT_PATH="./packages/store/node_modules/.prisma/client"
+
+# Prisma Migrate Settings
+# PRISMA_MIGRATE_SKIP_GENERATE=false
+# PRISMA_MIGRATE_SKIP_SEED=false
+
+# =============================
+# Connection Pool Settings
+# =============================
+
+# Connection pool size (for PostgreSQL/MySQL)
+# DATABASE_POOL_SIZE=10
+
+# Connection timeout (in seconds)
+# DATABASE_CONNECTION_TIMEOUT=30
+
+# =============================
+# Security & SSL Settings
+# =============================
+
+# SSL Mode (for PostgreSQL)
+# DATABASE_SSL_MODE=require
+
+# SSL Certificate Path
+# DATABASE_SSL_CA_PATH="/path/to/ca-certificate.crt"
+
+# =============================
+# Application Settings
+# =============================
+
+# Server Port
+PORT=3000
+
+# Node Environment
+NODE_ENV=development
+
+# =============================
+# Example with connection parameters
+# =============================
+
+# PostgreSQL with all parameters
+# DATABASE_URL="postgresql://username:password@hostname:5432/database_name?schema=public&connection_limit=10&pool_timeout=20&connect_timeout=30&ssl=true"
+
+# MySQL with all parameters
+# DATABASE_URL="mysql://username:password@hostname:3306/database_name?connection_limit=10&pool_timeout=20&connect_timeout=30&ssl=true"
+
+# =============================
+# Local Development Examples
+# =============================
+
+# Local PostgreSQL with Docker
+# DATABASE_URL="postgresql://postgres:postgres@localhost:5432/avadhi?schema=public"
+
+# Local MySQL with Docker
+# DATABASE_URL="mysql://root:password@localhost:3306/avadhi"
+
+# Local SQLite (file-based)
+# DATABASE_URL="file:./packages/store/prisma/dev.db"
+
+# =============================
+# Cloud Database Examples
+# =============================
+
+# Supabase PostgreSQL
+# DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@db.[YOUR-PROJECT-REF].supabase.co:5432/postgres"
+
+# PlanetScale MySQL
+# DATABASE_URL="mysql://username:password@aws.connect.psdb.cloud/avadhi?sslaccept=strict"
+
+# Neon PostgreSQL
+# DATABASE_URL="postgresql://username:password@ep-cool-name-123456.us-east-2.aws.neon.tech/avadhi?sslmode=require"
+
+# Railway PostgreSQL
+# DATABASE_URL="postgresql://postgres:password@containers-us-west-1.railway.app:5432/railway"
+
+# =============================
+# Notes
+# =============================
+
+# 1. Replace username, password, hostname, and database_name with your actual values
+# 2. For production, use environment-specific URLs (DATABASE_URL_PROD, etc.)
+# 3. Never commit actual passwords to version control
+# 4. Use connection pooling for production applications
+# 5. Enable SSL for production databases
+# 6. Consider using a secrets manager for production credentials 
