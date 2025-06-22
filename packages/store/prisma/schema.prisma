@@ -16,11 +16,12 @@ datasource db {
 
 model User {
   id        String   @id @default(uuid())
-  name      String   @default("Anonymous")
-  email     String   @unique @default("anon@mail.com")
-  password  String   @default("password")
+  name      String?
+  email     String   @unique
+  password  String   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  websites Website[]
 }
 
 model Website {
@@ -30,6 +31,8 @@ model Website {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   ticks WebsiteTick[]
+  user User? @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id String?
 }
 
 model Region {
@@ -63,7 +66,7 @@ model WebsiteTick {
   region_id  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Website Website @relation(fields: [website_id], references: [id])
+  Website Website @relation(fields: [website_id], references: [id], onDelete: Cascade)
 
   @@index([website_id, region_id])
 }
