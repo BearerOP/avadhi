@@ -69,6 +69,7 @@ model WebsiteTick {
   Website Website @relation(fields: [website_id], references: [id], onDelete: Cascade)
 
   @@index([website_id, region_id])
+  @@index([website_id, createdAt])
 }
 
 enum WebsiteTickStatus {

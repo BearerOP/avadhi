@@ -18,6 +18,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1", v1Router);
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log(`Server is running on port http://localhost:${process.env.PORT || 3000}`);
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`🚀 API Server is running on http://localhost:${PORT}`);
+  console.log(`📚 API Documentation available at http://localhost:${PORT}/api/v1`);
 });

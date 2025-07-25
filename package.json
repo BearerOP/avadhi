@@ -4,9 +4,18 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "dev:api": "turbo run dev --filter=api",
+    "dev:web": "turbo run dev --filter=web",
+    "dev:docs": "turbo run dev --filter=docs",
+    "start": "turbo run start",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "db:generate": "cd packages/store && npx prisma generate",
+    "db:migrate": "cd packages/store && npx prisma migrate dev",
+    "db:studio": "cd packages/store && npx prisma studio",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "install:all": "bun install"
   },
   "devDependencies": {
     "prettier": "^3.5.3",
@@ -16,7 +25,7 @@
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "bun@1.2.8",
+  "packageManager": "bun@1.22.22",
   "workspaces": [
     "apps/*",
     "packages/*"

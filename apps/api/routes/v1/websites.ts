@@ -148,4 +148,47 @@ websitesRouter.get("/status/:websiteId", auth, async (req, res) => {
   }
 });
 
+websitesRouter.get("/:websiteId/logs", auth, async (req, res) => {
+  try {
+    const userId = req.userId as string;
+    const { websiteId } = req.params;
+    const after = req.query.after || new Date(Date.now() - 60 * 60 * 1000); // default: last 1 hour
+
+    // First verify the website belongs to the user
+    const website = await prismaClient.website.findUnique({
+      where: { 
+        id: websiteId,
+        user_id: userId // Ensure user can only view their own websites
+      },
+    });
+
+    if (!website) {
+      res.status(404).json({ message: "Website not found" });
+      return;
+    }
+
+    // Fetch 5-minute aggregated logs using raw SQL for efficiency
+    const logs = await prismaClient.$queryRawUnsafe(`
+      SELECT 
+        date_trunc('minute', "createdAt") - (EXTRACT(minute from "createdAt")::int % 5) * interval '1 minute' AS interval_start,
+        AVG("response_time_ms") AS avg_response_time_ms,
+        COUNT(*) AS ping_count,
+        BOOL_OR("status" = 'UP') AS is_up
+      FROM "WebsiteTick"
+      WHERE "website_id" = $1 AND "createdAt" > $2
+      GROUP BY interval_start
+      ORDER BY interval_start DESC
+      LIMIT 12;
+    `, websiteId, after);
+
+    res.status(200).json({
+      message: "Website logs fetched successfully",
+      data: logs,
+    });
+  } catch (error) {
+    console.error("Get website logs error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 export default websitesRouter;

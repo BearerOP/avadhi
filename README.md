@@ -1,58 +1,256 @@
-# Turborepo Tailwind CSS starter
+# Avadhi - Website Monitoring Platform
 
-This Turborepo starter is maintained by the Turborepo core team.
+A modern website monitoring platform built with Next.js, Express.js, and PostgreSQL.
 
-## Using this example
+## 🚀 Quick Start
 
-Run the following command:
+### Prerequisites
+- Node.js 18+ or Bun
+- PostgreSQL database
+- Environment variables configured
 
-```sh
-npx create-turbo@latest -e with-tailwind
+### 1. Install Dependencies
+```bash
+bun install
 ```
 
-## What's inside?
+### 2. Set up Database
+```bash
+# Generate Prisma client
+bun run db:generate
 
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `web`: another [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `ui`: a stub React component library with [Tailwind CSS](https://tailwindcss.com/) shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Building packages/ui
-
-This example is set up to produce compiled styles for `ui` components into the `dist` directory. The component `.tsx` files are consumed by the Next.js apps directly using `transpilePackages` in `next.config.ts`. This was chosen for several reasons:
-
-- Make sharing one `tailwind.config.ts` to apps and packages as easy as possible.
-- Make package compilation simple by only depending on the Next.js Compiler and `tailwindcss`.
-- Ensure Tailwind classes do not overwrite each other. The `ui` package uses a `ui-` prefix for it's classes.
-- Maintain clear package export boundaries.
-
-Another option is to consume `packages/ui` directly from source without building. If using this option, you will need to update the `tailwind.config.ts` in your apps to be aware of your package locations, so it can find all usages of the `tailwindcss` class names for CSS compilation.
-
-For example, in [tailwind.config.ts](packages/tailwind-config/tailwind.config.ts):
-
-```js
-  content: [
-    // app content
-    `src/**/*.{js,ts,jsx,tsx}`,
-    // include packages if not transpiling
-    "../../packages/ui/*.{js,ts,jsx,tsx}",
-  ],
+# Run migrations (make sure your database is running)
+bun run db:migrate
 ```
 
-If you choose this strategy, you can remove the `tailwindcss` and `autoprefixer` dependencies from the `ui` package.
+### 3. Start All Applications
+```bash
+bun run dev
+```
 
-### Utilities
+This will start:
+- **API Server**: http://localhost:3000
+- **Web App**: http://localhost:3001  
+- **Documentation**: http://localhost:3002
 
-This Turborepo has some additional tools already setup for you:
+---
 
-- [Tailwind CSS](https://tailwindcss.com/) for styles
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+## 📁 Project Structure
+
+```
+avadhi/
+├── apps/
+│   ├── api/          # Express.js API server
+│   ├── web/          # Next.js web application
+│   └── docs/         # Next.js documentation site
+├── packages/
+│   ├── store/        # Prisma database client
+│   ├── ui/           # Shared UI components
+│   ├── eslint-config/    # ESLint configuration
+│   ├── tailwind-config/  # Tailwind CSS configuration
+│   └── typescript-config/ # TypeScript configuration
+└── package.json      # Root package.json with Turborepo
+```
+
+---
+
+## 🛠️ Available Scripts
+
+### Root Commands
+```bash
+# Development
+bun run dev          # Start all applications
+bun run dev:api      # Start only API server
+bun run dev:web      # Start only web app
+bun run dev:docs     # Start only documentation
+
+# Build & Production
+bun run build        # Build all applications
+bun run start        # Start all applications in production mode
+
+# Code Quality
+bun run lint         # Lint all packages
+bun run check-types  # Type check all packages
+bun run format       # Format code with Prettier
+
+# Database
+bun run db:generate  # Generate Prisma client
+bun run db:migrate   # Run database migrations
+bun run db:studio    # Open Prisma Studio
+
+# Maintenance
+bun run clean        # Clean all build artifacts
+bun run install:all  # Install all dependencies
+```
+
+### Individual App Commands
+```bash
+# API Server
+cd apps/api
+bun run dev          # Start with hot reload
+bun run build        # Build for production
+bun run start        # Start production server
+
+# Web App
+cd apps/web
+bun run dev          # Start on port 3001
+bun run build        # Build for production
+bun run start        # Start production server
+
+# Documentation
+cd apps/docs
+bun run dev          # Start on port 3002
+bun run build        # Build for production
+bun run start        # Start production server
+```
+
+---
+
+## 🌐 Application URLs
+
+| Application | URL | Description |
+|-------------|-----|-------------|
+| **API Server** | http://localhost:3000 | Express.js REST API |
+| **Web App** | http://localhost:3001 | Main web application |
+| **Documentation** | http://localhost:3002 | API documentation |
+
+---
+
+## 🔧 Environment Setup
+
+### Required Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+# Database
+DATABASE_URL="postgresql://username:password@localhost:5432/avadhi?schema=public"
+
+# JWT Secret
+JWT_SECRET="your-super-secret-jwt-key"
+
+# Server Port (optional, defaults to 3000)
+PORT=3000
+```
+
+### Database Setup
+
+1. **Install PostgreSQL** (if not already installed)
+2. **Create database**:
+   ```sql
+   CREATE DATABASE avadhi;
+   ```
+3. **Run migrations**:
+   ```bash
+   bun run db:migrate
+   ```
+
+---
+
+## 📊 API Endpoints
+
+### Authentication
+- `POST /api/v1/user/register` - Register new user
+- `POST /api/v1/user/login` - Login user
+- `GET /api/v1/user/me` - Get current user
+
+### Websites
+- `GET /api/v1/website` - Get user's websites
+- `POST /api/v1/website` - Create new website
+- `PATCH /api/v1/website/:id` - Update website
+- `DELETE /api/v1/website/:id` - Delete website
+- `GET /api/v1/website/:id/logs` - Get website logs (5-min intervals)
+
+---
+
+## 🏗️ Development
+
+### Adding New Features
+
+1. **API Routes**: Add to `apps/api/routes/v1/`
+2. **Database Models**: Update `packages/store/prisma/schema.prisma`
+3. **UI Components**: Add to `packages/ui/src/`
+4. **Web Pages**: Add to `apps/web/app/`
+
+### Database Changes
+
+```bash
+# After modifying schema.prisma
+bun run db:migrate
+
+# To reset database (⚠️ destructive)
+cd packages/store
+npx prisma migrate reset
+```
+
+### Adding Dependencies
+
+```bash
+# Add to specific app/package
+cd apps/api
+bun add express
+
+# Add to root (for dev dependencies)
+bun add -D prettier
+```
+
+---
+
+## 🚀 Deployment
+
+### Production Build
+```bash
+# Build all applications
+bun run build
+
+# Start production servers
+bun run start
+```
+
+### Docker (Optional)
+```bash
+# Build Docker image
+docker build -t avadhi .
+
+# Run with Docker Compose
+docker-compose up -d
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+1. **Port conflicts**: Check if ports 3000, 3001, 3002 are available
+2. **Database connection**: Verify DATABASE_URL and PostgreSQL is running
+3. **Build errors**: Run `bun run clean` then `bun run build`
+4. **Type errors**: Run `bun run check-types` to identify issues
+
+### Reset Everything
+```bash
+# Clean all build artifacts
+bun run clean
+
+# Reinstall dependencies
+bun run install:all
+
+# Regenerate Prisma client
+bun run db:generate
+```
+
+---
+
+## 📝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests and linting
+5. Submit a pull request
+
+---
+
+## 📄 License
+
+MIT License - see LICENSE file for details.

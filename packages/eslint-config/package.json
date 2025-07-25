@@ -3,6 +3,12 @@
   "version": "0.0.0",
   "type": "module",
   "private": true,
+  "scripts": {
+    "build": "echo 'No build needed for eslint config'",
+    "dev": "echo 'No dev needed for eslint config'",
+    "lint": "echo 'No lint needed for eslint config'",
+    "check-types": "echo 'No types to check for eslint config'"
+  },
   "exports": {
     "./base": "./base.js",
     "./next-js": "./next.js",
