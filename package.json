@@ -7,7 +7,7 @@
     "dev:api": "turbo run dev --filter=api",
     "dev:web": "turbo run dev --filter=web",
     "dev:docs": "turbo run dev --filter=docs",
-    "start": "turbo run start",
+    "start": "turbo run build && turbo run start",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
