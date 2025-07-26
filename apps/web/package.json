@@ -16,6 +16,7 @@
     "@next/swc-wasm-nodejs": "^15.4.1",
     "@next/swc-wasm-web": "^15.4.1",
     "@repo/ui": "*",
+    "framer-motion": "^12.23.9",
     "next": "^15.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"

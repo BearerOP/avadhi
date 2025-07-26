@@ -1,8 +1,24 @@
-import Image from "next/image";
+'use client'
 import Link from "next/link";
-import { Card } from "@repo/ui/card";
-import { Gradient } from "@repo/ui/gradient";
-import { TurborepoLogo } from "@repo/ui/turborepo-logo";
+
+// Optionally replace or comment out if you don't have these UI components
+// import { Card } from "@repo/ui/card";
+function Card({ href, title, children }: { href: string; title: string; children: React.ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="flex flex-col bg-white/5 hover:bg-white/10 transition rounded-2xl backdrop-blur-xl border border-white/10 shadow-xl p-6 md:p-7 mx-auto text-left mb-4 md:mb-0"
+      style={{
+        boxShadow: "0 8px 40px 0 rgba(75,255,175,0.08)", // soft glass glow
+      }}
+      target={href.startsWith("http") ? "_blank" : "_self"}
+      rel="noopener noreferrer"
+    >
+      <h4 className="mb-1 font-bold text-lg text-white">{title}</h4>
+      <p className="text-gray-300">{children}</p>
+    </Link>
+  );
+}
 
 const LINKS = [
   {
@@ -30,137 +46,115 @@ const LINKS = [
 
 export default function Page() {
   return (
-    <main className="flex flex-col items-center justify-between min-h-screen p-24">
-      <div className="z-10 items-center justify-between w-full max-w-5xl font-mono text-sm lg:flex">
-        <p className="fixed top-0 left-0 flex justify-center w-full px-4 pt-8 pb-6 border backdrop-blur-2xl border-neutral-800 from-inherit lg:static lg:w-auto lg:rounded-xl lg:p-4">
-          Avadhi -&nbsp;
-          <code className="font-mono font-bold">Website Monitoring Platform</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex items-end justify-center w-full h-48 lg:static lg:h-auto lg:w-auto">
-          <a
-            className="flex gap-2 p-8 pointer-events-none place-items-center lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-turbo&utm_medium=basic&utm_campaign=create-turbo"
-            rel="noopener noreferrer"
-            target="_blank"
+    <main className="min-h-screen w-full flex flex-col items-center relative overflow-hidden px-4 font-sans bg-[#121818]">
+      {/* Smooth mesh gradient background */}
+      <div className="absolute inset-0 z-0">
+        <svg className="w-full h-full" viewBox="0 0 1500 1200" fill="none">
+          <defs>
+            <radialGradient id="g1" cx="0.4" cy="0.3" r="0.9">
+              <stop offset="0%" stopColor="#44ffbb" stopOpacity="0.25" />
+              <stop offset="70%" stopColor="#121818" stopOpacity="0" />
+            </radialGradient>
+            <radialGradient id="g2" cx="0.7" cy="0.7" r="0.7">
+              <stop offset="0%" stopColor="#66ff99" stopOpacity="0.15" />
+              <stop offset="90%" stopColor="#121818" stopOpacity="0" />
+            </radialGradient>
+            <radialGradient id="g3" cx="0.7" cy="0.3" r="1.1">
+              <stop offset="0%" stopColor="#16f561" stopOpacity="0.20" />
+              <stop offset="100%" stopColor="#121818" stopOpacity="0" />
+            </radialGradient>
+          </defs>
+          <rect width="1500" height="1200" fill="url(#g1)" />
+          <rect width="1500" height="1200" fill="url(#g2)" />
+          <rect width="1500" height="1200" fill="url(#g3)" />
+        </svg>
+      </div>
+
+      {/* Top Navbar / Branding */}
+      <div className="z-20 flex w-full max-w-4xl items-center pt-12 justify-between mb-12">
+        <span className="inline-flex items-center gap-2 text-green-200/80 font-bold bg-black/60 px-5 py-2 rounded-2xl border-white/10 border uppercase tracking-widest shadow-2xl backdrop-blur-lg text-xs md:text-base">
+          <svg className="h-4 w-4 text-green-300" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg>
+          Avadhi
+        </span>
+        <span className="text-gray-300/60 tracking-wider font-medium text-xs md:text-sm select-none">
+          Website Monitoring Platform
+        </span>
+      </div>
+
+      {/* Hero Section */}
+      <section className="relative z-20 mb-16 w-full flex flex-col items-center">
+        {/* Inset mesh highlight */}
+        <div className="absolute w-80 h-80 bg-gradient-to-br from-green-400/80 via-white/5 to-transparent left-1/2 -translate-x-1/2 top-3 rounded-full blur-3xl opacity-70 pointer-events-none" />
+        <div className="max-w-2xl mx-auto flex flex-col items-center bg-white/5 border-white/10 border backdrop-blur-lg rounded-3xl shadow-2xl px-8 pt-14 pb-10 relative">
+          <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-5 tracking-tight drop-shadow-[0_2px_50px_rgba(39,255,153,0.22)]">
+          See Every Pulse of Your APIs. <span className="inline-block align-middle text-green-400">🌱</span>
+          </h1>
+          <p className="mb-8 text-xl text-gray-200 font-light tracking-wide">
+            All your sites & APIs, one dashboard. Real-time logs, uptime analytics, secure REST API.
+          </p>
+          <Link
+            href="/dashboard"
+            className="rounded-xl bg-gradient-to-r from-green-400/80 to-teal-500/90 px-10 py-4 text-white font-bold text-lg shadow-xl hover:scale-105 transition-transform"
           >
-            Powered by{" "}
-            <Image
-              alt="Vercel Logo"
-              className="dark:invert"
-              height={24}
-              priority
-              src="/vercel.svg"
-              width={100}
-            />
-          </a>
+            View Dashboard Demo
+          </Link>
         </div>
-      </div>
+      </section>
 
-      <div className="relative flex place-items-center ">
-        <div className="font-sans w-auto pb-16 pt-[48px] md:pb-24 lg:pb-32 md:pt-16 lg:pt-20 flex justify-between gap-8 items-center flex-col relative z-0">
-          <div className="z-50 flex items-center justify-center w-full">
-            <div className="absolute min-w-[614px] min-h-[614px]">
-              <Image
-                alt="Avadhi"
-                height={614}
-                src="circles.svg"
-                width={614}
-              />
-            </div>
-            <div className="absolute z-50 flex items-center justify-center w-64 h-64">
-              <Gradient
-                className="opacity-90 w-[120px] h-[120px]"
-                conic
-                small
-              />
-            </div>
-
-            <div className="flex justify-center items-center z-50">
-              <div className="text-center">
-                <h1 className="text-6xl font-bold text-gray-900 mb-4">
-                  Avadhi
-                </h1>
-                <p className="text-xl text-gray-600 mb-8">
-                  Website Monitoring Platform
-                </p>
-                <Link
-                  href="/dashboard"
-                  className="bg-blue-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors duration-200"
-                >
-                  View Dashboard Demo
-                </Link>
-              </div>
-            </div>
-          </div>
-          <Gradient
-            className="top-[-500px] opacity-[0.15] w-[1000px] h-[1000px]"
-            conic
-          />
-          <div className="z-50 flex flex-col items-center justify-center gap-5 px-6 text-center lg:gap-6">
-            <div className="max-w-2xl">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Monitor Your Websites in Real-Time
-              </h2>
-              <p className="text-lg text-gray-600">
-                Get 5-minute aggregated logs, response time analytics, and uptime monitoring 
-                for all your websites in one beautiful dashboard.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="grid mb-32 text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
+      {/* Cards (Dashboard/API/GitHub/Deploy) */}
+      <section className="z-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-4xl w-full mb-20 relative">
         {LINKS.map(({ title, href, description }) => (
           <Card href={href} key={title} title={title}>
             {description}
           </Card>
         ))}
-      </div>
+      </section>
 
-      {/* Feature Highlights */}
-      <div className="max-w-5xl w-full mb-32">
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-          Key Features
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+      {/* Feature highlights */}
+      <section className="z-20 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-lg shadow-2xl px-8 py-16 w-full max-w-5xl mb-28 mt-2 flex flex-col items-center">
+        <h2 className="text-3xl font-extrabold mb-12 text-white text-center tracking-tight">Why Avadhi?</h2>
+        <div className="grid gap-12 md:grid-cols-3 w-full">
+          {/* Feature 1 */}
+          <div className="flex flex-col items-center">
+            <div className="mb-5 w-14 h-14 rounded-full bg-green-600/30 flex items-center justify-center shadow-lg">
+              <svg className="w-8 h-8 text-green-300" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Real-Time Monitoring</h3>
-            <p className="text-gray-600">
-              Get instant updates on website status with 5-minute aggregated logs and response time tracking.
-            </p>
+            <h3 className="font-semibold text-lg text-white mb-1">Real-Time Monitoring</h3>
+            <p className="text-gray-300 text-base text-center">Instant updates & 5-min status logs for all your APIs.</p>
           </div>
-          
-          <div className="text-center">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          {/* Feature 2 */}
+          <div className="flex flex-col items-center">
+            <div className="mb-5 w-14 h-14 rounded-full bg-teal-400/30 flex items-center justify-center shadow-lg">
+              <svg className="w-8 h-8 text-teal-200" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Analytics Dashboard</h3>
-            <p className="text-gray-600">
-              Beautiful charts and metrics showing uptime, response times, and performance trends.
-            </p>
+            <h3 className="font-semibold text-lg text-white mb-1">Analytics Dashboard</h3>
+            <p className="text-gray-300 text-base text-center">See uptime, latency & clear performance trends.</p>
           </div>
-          
-          <div className="text-center">
-            <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          {/* Feature 3 */}
+          <div className="flex flex-col items-center">
+            <div className="mb-5 w-14 h-14 rounded-full bg-purple-500/20 flex items-center justify-center shadow-lg">
+              <svg className="w-8 h-8 text-purple-300" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Secure API</h3>
-            <p className="text-gray-600">
-              RESTful API with JWT authentication for secure access to monitoring data and management.
-            </p>
+            <h3 className="font-semibold text-lg text-white mb-1">Secure Integrations</h3>
+            <p className="text-gray-300 text-base text-center">REST API w/ JWT for safe programmatic access.</p>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Copyright / Footer */}
+      <footer className="mb-10 text-gray-500 z-50 relative text-sm">
+        <div className="flex justify-center items-center gap-2 opacity-90">
+          © {new Date().getFullYear()} Avadhi
+          <span className="text-green-300 text-base">•</span>
+          Crafted with <span className="text-green-300">●</span>
+        </div>
+      </footer>
     </main>
   );
 }
