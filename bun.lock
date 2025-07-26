@@ -3,11 +3,15 @@
   "workspaces": {
     "": {
       "name": "with-tailwind",
+      "dependencies": {
+        "@emnapi/core": "^1.4.5",
+        "@tybys/wasm-util": "^0.10.0"
+      },
       "devDependencies": {
         "prettier": "^3.5.3",
         "prettier-plugin-tailwindcss": "^0.6.11",
-        "turbo": "^2.5.4",
-      },
+        "turbo": "^2.5.4"
+      }
     },
     "apps/api": {
       "name": "api",
@@ -20,14 +24,14 @@
         "dotenv": "^16.5.0",
         "express": "^5.1.0",
         "jsonwebtoken": "^9.0.2",
-        "store": "workspace:*",
+        "store": "workspace:*"
       },
       "devDependencies": {
-        "@types/bun": "latest",
+        "@types/bun": "latest"
       },
       "peerDependencies": {
-        "typescript": "^5",
-      },
+        "typescript": "^5"
+      }
     },
     "apps/docs": {
       "name": "docs",
@@ -36,7 +40,7 @@
         "@repo/ui": "*",
         "next": "^15.3.0",
         "react": "^19.1.0",
-        "react-dom": "^19.1.0",
+        "react-dom": "^19.1.0"
       },
       "devDependencies": {
         "@next/eslint-plugin-next": "^15.3.0",
@@ -51,8 +55,8 @@
         "eslint": "^9.29.0",
         "postcss": "^8.5.3",
         "tailwindcss": "^4.1.5",
-        "typescript": "5.8.2",
-      },
+        "typescript": "5.8.2"
+      }
     },
     "apps/web": {
       "name": "web",
@@ -64,7 +68,7 @@
         "@repo/ui": "*",
         "next": "^15.3.0",
         "react": "^19.1.0",
-        "react-dom": "^19.1.0",
+        "react-dom": "^19.1.0"
       },
       "devDependencies": {
         "@next/eslint-plugin-next": "^15.3.0",
@@ -79,8 +83,8 @@
         "eslint": "^9.29.0",
         "postcss": "^8.5.3",
         "tailwindcss": "^4.1.5",
-        "typescript": "5.8.2",
-      },
+        "typescript": "5.8.2"
+      }
     },
     "packages/eslint-config": {
       "name": "@repo/eslint-config",
@@ -96,34 +100,34 @@
         "eslint-plugin-turbo": "^2.5.0",
         "globals": "^16.2.0",
         "typescript": "^5.8.2",
-        "typescript-eslint": "^8.34.0",
-      },
+        "typescript-eslint": "^8.34.0"
+      }
     },
     "packages/store": {
       "name": "store",
       "dependencies": {
         "@prisma/client": "^6.10.1",
         "dotenv": "^16.5.0",
-        "prisma": "^6.10.1",
+        "prisma": "^6.10.1"
       },
       "devDependencies": {
-        "@types/bun": "latest",
+        "@types/bun": "latest"
       },
       "peerDependencies": {
-        "typescript": "^5",
-      },
+        "typescript": "^5"
+      }
     },
     "packages/tailwind-config": {
       "name": "@repo/tailwind-config",
       "version": "0.0.0",
       "devDependencies": {
         "postcss": "^8.5.3",
-        "tailwindcss": "^4.1.5",
-      },
+        "tailwindcss": "^4.1.5"
+      }
     },
     "packages/typescript-config": {
       "name": "@repo/typescript-config",
-      "version": "0.0.0",
+      "version": "0.0.0"
     },
     "packages/ui": {
       "name": "@repo/ui",
@@ -136,19 +140,23 @@
         "@types/react": "^19.1.0",
         "eslint": "^9.29.0",
         "tailwindcss": "^4.1.5",
-        "typescript": "5.8.2",
+        "typescript": "5.8.2"
       },
       "peerDependencies": {
-        "react": "^19",
-      },
-    },
+        "react": "^19"
+      }
+    }
   },
   "packages": {
     "@alloc/quick-lru": ["@alloc/quick-lru@5.2.0", "", {}, "sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw=="],
 
     "@ampproject/remapping": ["@ampproject/remapping@2.3.0", "", { "dependencies": { "@jridgewell/gen-mapping": "^0.3.5", "@jridgewell/trace-mapping": "^0.3.24" } }, "sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw=="],
 
+    "@emnapi/core": ["@emnapi/core@1.4.5", "", { "dependencies": { "@emnapi/wasi-threads": "1.0.4", "tslib": "^2.4.0" } }, "sha512-XsLw1dEOpkSX/WucdqUhPWP7hDxSvZiY+fsUC14h+FtQ2Ifni4znbBt8punRX+Uj2JG/uDb8nEHVKvrVlvdZ5Q=="],
+
     "@emnapi/runtime": ["@emnapi/runtime@1.4.3", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-pBPWdu6MLKROBX05wSNKcNb++m5Er+KQ9QkB+WVM+pW2Kx9hoSrVTnu3BdkI5eBLZoKu/J6mW/B6i6bJB2ytXQ=="],
+
+    "@emnapi/wasi-threads": ["@emnapi/wasi-threads@1.0.4", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-PJR+bOmMOPH8AtcTGAyYNiuJ3/Fcoj2XN/gBEWzDIKh254XO+mM9XoXHk5GNEhodxeMznbg7BlRojVbKN+gC6g=="],
 
     "@eslint-community/eslint-utils": ["@eslint-community/eslint-utils@4.7.0", "", { "dependencies": { "eslint-visitor-keys": "^3.4.3" }, "peerDependencies": { "eslint": "^6.0.0 || ^7.0.0 || >=8.0.0" } }, "sha512-dyybb3AcajC7uha6CvhdVRJqaKyn7w2YKqKyAN37NKYgZT36w+iRb0Dymmc5qEJ549c/S31cMMSFd75bteCpCw=="],
 
@@ -345,6 +353,8 @@
     "@tailwindcss/oxide-win32-x64-msvc": ["@tailwindcss/oxide-win32-x64-msvc@4.1.10", "", { "os": "win32", "cpu": "x64" }, "sha512-sGiJTjcBSfGq2DVRtaSljq5ZgZS2SDHSIfhOylkBvHVjwOsodBhnb3HdmiKkVuUGKD0I7G63abMOVaskj1KpOA=="],
 
     "@tailwindcss/postcss": ["@tailwindcss/postcss@4.1.10", "", { "dependencies": { "@alloc/quick-lru": "^5.2.0", "@tailwindcss/node": "4.1.10", "@tailwindcss/oxide": "4.1.10", "postcss": "^8.4.41", "tailwindcss": "4.1.10" } }, "sha512-B+7r7ABZbkXJwpvt2VMnS6ujcDoR2OOcFaqrLIo1xbcdxje4Vf+VgJdBzNNbrAjBj/rLZ66/tlQ1knIGNLKOBQ=="],
+
+    "@tybys/wasm-util": ["@tybys/wasm-util@0.10.0", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-VyyPYFlOMNylG45GoAe0xDoLwWuowvf92F9kySqzYh8vmYm7D2u4iUJKa1tOUpS70Ku13ASrOkS4ScXFsTaCNQ=="],
 
     "@types/bcrypt": ["@types/bcrypt@5.0.2", "", { "dependencies": { "@types/node": "*" } }, "sha512-6atioO8Y75fNcbmj0G7UjI9lXN2pQ/IGJ2FWT4a/btd0Lk9lQalHLKhkgKVZ3r+spnmWUKfbMi1GEe9wyHQfNQ=="],
 
@@ -1134,6 +1144,6 @@
 
     "@typescript-eslint/typescript-estree/fast-glob/glob-parent": ["glob-parent@5.1.2", "", { "dependencies": { "is-glob": "^4.0.1" } }, "sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow=="],
 
-    "@typescript-eslint/typescript-estree/minimatch/brace-expansion": ["brace-expansion@2.0.2", "", { "dependencies": { "balanced-match": "^1.0.0" } }, "sha512-Jt0vHyM+jmUBqojB7E1NIYadt0vI0Qxjxd2TErW94wDz+E2LAm5vKMXXwg6ZZBTHPuUlDgQHKXvjGBdfcF1ZDQ=="],
+    "@typescript-eslint/typescript-estree/minimatch/brace-expansion": ["brace-expansion@2.0.2", "", { "dependencies": { "balanced-match": "^1.0.0" } }, "sha512-Jt0vHyM+jmUBqojB7E1NIYadt0vI0Qxjxd2TErW94wDz+E2LAm5vKMXXwg6ZZBTHPuUlDgQHKXvjGBdfcF1ZDQ=="]
   }
 }

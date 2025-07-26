@@ -29,5 +29,9 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@emnapi/core": "^1.4.5",
+    "@tybys/wasm-util": "^0.10.0"
+  }
 }
