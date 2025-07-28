@@ -48,7 +48,7 @@ export async function xReadGroup(consumerGroup: string, workerId: string): Promi
     key: STREAM_NAME,
     id: '>'
   }, {
-    'COUNT': 1000
+    'COUNT': 50
   }
   );
 
@@ -57,7 +57,7 @@ export async function xReadGroup(consumerGroup: string, workerId: string): Promi
   let messages: MessageType[] | undefined = res?.[0]?.messages;
 
 
-  console.log(messages?.length,'in redis be');
+  // console.log(messages?.length,'in redis be');
   return messages;
 }
 
