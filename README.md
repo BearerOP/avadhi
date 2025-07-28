@@ -21,6 +21,9 @@ bun run db:generate
 
 # Run migrations (make sure your database is running)
 bun run db:migrate
+
+# Seed the database with initial data (regions)
+bun run db:seed
 ```
 
 ### 3. Start All Applications
@@ -33,6 +36,16 @@ This will start:
 - **Web App**: http://localhost:3001  
 - **Documentation**: http://localhost:3002
 
+### 4. Start Monitoring Services (Optional)
+```bash
+# Start Redis (if not running)
+brew services start redis
+
+# Start worker for monitoring
+cd apps/worker
+WORKER_ID=worker-1 REGION_ID=us-east-1 bun index.ts
+```
+
 ---
 
 ## 📁 Project Structure
@@ -42,9 +55,12 @@ avadhi/
 ├── apps/
 │   ├── api/          # Express.js API server
 │   ├── web/          # Next.js web application
-│   └── docs/         # Next.js documentation site
+│   ├── docs/         # Next.js documentation site
+│   ├── worker/       # Website monitoring worker
+│   └── pusher/       # Redis stream pusher
 ├── packages/
 │   ├── store/        # Prisma database client
+│   ├── redis-be/     # Redis backend utilities
 │   ├── ui/           # Shared UI components
 │   ├── eslint-config/    # ESLint configuration
 │   ├── tailwind-config/  # Tailwind CSS configuration
@@ -76,6 +92,7 @@ bun run format       # Format code with Prettier
 # Database
 bun run db:generate  # Generate Prisma client
 bun run db:migrate   # Run database migrations
+bun run db:seed      # Seed database with initial data
 bun run db:studio    # Open Prisma Studio
 
 # Maintenance
@@ -226,6 +243,7 @@ docker-compose up -d
 2. **Database connection**: Verify DATABASE_URL and PostgreSQL is running
 3. **Build errors**: Run `bun run clean` then `bun run build`
 4. **Type errors**: Run `bun run check-types` to identify issues
+5. **Worker foreign key errors**: Run `bun run db:seed` to create regions
 
 ### Reset Everything
 ```bash

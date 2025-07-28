@@ -14,6 +14,7 @@
     "db:generate": "cd packages/store && npx prisma generate",
     "db:migrate": "cd packages/store && npx prisma migrate dev",
     "db:studio": "cd packages/store && npx prisma studio",
+    "db:seed": "cd packages/store && npx tsx prisma/seed.ts",
     "clean": "turbo run clean && rm -rf node_modules",
     "install:all": "bun install"
   },

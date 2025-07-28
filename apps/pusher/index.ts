@@ -15,10 +15,10 @@ async function main() {
   console.log('Added all websites to Redis stream.');
 }
 
-// Run once now
+// // Run once now
 main().catch(console.error);
 
-// Optionally, start periodic pushing:
-// setInterval(() => {
-//   main().catch(console.error);
-// }, 3 * 60 * 1000);
+
+setInterval(() => {
+  main().catch(console.error);
+}, 3 * 60 * 1000);
