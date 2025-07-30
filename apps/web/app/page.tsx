@@ -1,5 +1,6 @@
 'use client'
 import Link from "next/link";
+import Navbar from "../components/Navbar";
 
 // Optionally replace or comment out if you don't have these UI components
 // import { Card } from "@repo/ui/card";
@@ -71,15 +72,7 @@ export default function Page() {
       </div>
 
       {/* Top Navbar / Branding */}
-      <div className="z-20 flex w-full max-w-4xl items-center pt-12 justify-between mb-12">
-        <span className="inline-flex items-center gap-2 text-green-200/80 font-bold bg-black/60 px-5 py-2 rounded-2xl border-white/10 border uppercase tracking-widest shadow-2xl backdrop-blur-lg text-xs md:text-base">
-          <svg className="h-4 w-4 text-green-300" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg>
-          Avadhi
-        </span>
-        <span className="text-gray-300/60 tracking-wider font-medium text-xs md:text-sm select-none">
-          Website Monitoring Platform
-        </span>
-      </div>
+     <Navbar/>
 
       {/* Hero Section */}
       <section className="relative z-20 mb-16 w-full flex flex-col items-center">
