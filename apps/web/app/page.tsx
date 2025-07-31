@@ -47,10 +47,10 @@ const LINKS = [
 
 export default function Page() {
   return (
-    <main className="min-h-screen w-full flex flex-col items-center relative overflow-hidden px-4 font-sans bg-[#121818]">
+    <main className="min-h-screen w-full flex flex-col items-center overflow-hidden px-4 font-sans bg-[#121818]">
       {/* Smooth mesh gradient background */}
       <div className="absolute inset-0 z-0">
-        <svg className="w-full h-full" viewBox="0 0 1500 1200" fill="none">
+<svg className="w-full h-full" viewBox="0 0 1500 1200" fill="none">
           <defs>
             <radialGradient id="g1" cx="0.4" cy="0.3" r="0.9">
               <stop offset="0%" stopColor="#44ffbb" stopOpacity="0.25" />
@@ -71,11 +71,10 @@ export default function Page() {
         </svg>
       </div>
 
-      {/* Top Navbar / Branding */}
-     <Navbar/>
+      <Navbar />
 
       {/* Hero Section */}
-      <section className="relative z-20 mb-16 w-full flex flex-col items-center">
+      <section className=" mb-16 w-full flex flex-col items-center">
         {/* Inset mesh highlight */}
         <div className="absolute w-80 h-80 bg-gradient-to-br from-green-400/80 via-white/5 to-transparent left-1/2 -translate-x-1/2 top-3 rounded-full blur-3xl opacity-70 pointer-events-none" />
         <div className="max-w-2xl mx-auto flex flex-col items-center bg-white/5 border-white/10 border backdrop-blur-lg rounded-3xl shadow-2xl px-8 pt-14 pb-10 relative">
