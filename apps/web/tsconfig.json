@@ -7,6 +7,15 @@
       }
     ]
   },
+  "baseUrl": ".",
+  "paths": {
+    "@/*": ["./*"],
+    "@/components/*": ["./components/*"],
+    "@/lib/*": ["./lib/*"],
+    "@/hooks/*": ["./hooks/*"],
+    "@/styles/*": ["./styles/*"],
+    "@/types/*": ["./types/*"]
+  },
   "include": [
     "**/*.ts",
     "**/*.tsx",

@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Button } from "@repo/ui";
 
 export default function Navbar() {
-    const { user } = { user: null }
+    const { user } = { user: false }
 
     return (
-        <nav className="sticky top-4 z-20 flex w-full max-w-7xl mx-auto items-center justify-between mb-12 py-3 px-6">
+        <nav className="sticky top-0 z-50 flex w-full max-w-7xl mx-auto items-center justify-between py-6 px-6">
             <motion.div
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -15,7 +16,7 @@ export default function Navbar() {
             >
                 <Link href={"/"} className="flex items-center gap-2 cursor-pointer">
                     <span className="inline-flex items-center gap-2 text-green-200/80 font-bold bg-black/60 px-4 py-2 md:px-6 md:py-3 rounded-2xl uppercase tracking-widest shadow-2xl backdrop-blur-lg text-xs sm:text-sm md:text-base lg:text-lg">
-                        <svg className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 text-green-300" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" /></svg>
+                        <svg className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 text-teal-300" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" /></svg>
                         Avadhi
                     </span>
                 </Link>
@@ -23,18 +24,21 @@ export default function Navbar() {
                 <div className="flex gap-2 sm:gap-3 md:gap-4">
                     {!user ? (
                         <>
-                            <Link 
+                            {/* <Link 
                                 href="/login" 
                                 className="text-gray-300 hover:text-white transition-colors duration-200 font-medium text-sm sm:text-base md:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg hover:bg-white/10"
                             >
                                 Login
-                            </Link>
-                            <Link 
-                                href="/signup" 
-                                className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 md:px-5 md:py-2 rounded-lg transition-colors duration-200 font-medium text-sm sm:text-base md:text-lg shadow-lg hover:shadow-xl"
+                            </Link> */}
+                            <Button 
+                            onClick={()=>{
+                                
+                            }}
+                                size={"xl"}
+                                className="bg-teal-600 hover:bg-teal-700 text-white px-3 py-4 md:px-5 md:py-2 rounded-lg transition-colors duration-200 font-medium text-sm sm:text-base md:text-lg shadow-lg hover:shadow-xl cursor-pointer"
                             >
-                                Sign Up
-                            </Link>
+                                Sign In
+                            </Button>
                         </>
                     ) : (
                         <div className="flex items-center gap-4">
@@ -44,9 +48,9 @@ export default function Navbar() {
                             >
                                 Dashboard
                             </Link>
-                            <button className="text-gray-300 hover:text-white transition-colors duration-200 font-medium text-sm sm:text-base md:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg hover:bg-white/10">
+                            <Button variant='destructive' className="cursor-pointer text-gray-300 hover:text-white transition-colors duration-200 font-medium text-sm sm:text-base md:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg ">
                                 Logout
-                            </button>
+                            </Button>
                         </div>
                     )}
                 </div>
