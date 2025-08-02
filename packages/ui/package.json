@@ -27,6 +27,7 @@
     "react": "^19"
   },
   "dependencies": {
+    "@radix-ui/react-scroll-area": "^1.2.9",
     "@repo/tailwind-config": "*",
     "radix-icons": "^1.0.0",
     "radix-ui": "^1.4.2",

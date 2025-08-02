@@ -2,12 +2,28 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@repo/ui";
+import { useState } from "react";
+import SignInModal from "./SignInModal";
+
+
 
 export default function Navbar() {
+    const [isSignInModalOpen, setIsSignInModalOpen] = useState<boolean>(false)
     const { user } = { user: false }
+
+    // handle sign in modal
+    const handleSignIn = () => {
+        setIsSignInModalOpen(true)
+    }
 
     return (
         <nav className="sticky top-0 z-50 flex w-full max-w-7xl mx-auto items-center justify-between py-6 px-6">
+
+ {/* sign in modal */}
+ {isSignInModalOpen && (
+    <SignInModal />
+ )}
+
             <motion.div
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -31,9 +47,7 @@ export default function Navbar() {
                                 Login
                             </Link> */}
                             <Button 
-                            onClick={()=>{
-                                
-                            }}
+                            onClick={handleSignIn}
                                 size={"xl"}
                                 className="bg-teal-600 hover:bg-teal-700 text-white px-3 py-4 md:px-5 md:py-2 rounded-lg transition-colors duration-200 font-medium text-sm sm:text-base md:text-lg shadow-lg hover:shadow-xl cursor-pointer"
                             >

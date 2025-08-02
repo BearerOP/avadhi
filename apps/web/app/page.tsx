@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import Navbar from '../components/core-ui/Navbar';
 import Hero from '../components/core-ui/Hero';
+import TabList from '../components/core-ui/TabList';
 
 // export default function Page() {
 //   return (
@@ -166,6 +167,7 @@ export default function Landing() {
     <div className="flex flex-col">
       <Navbar />
       <Hero/>
+      <TabList />
       {/* <Tracks tracks={tracks} categories={categories} />
       <FooterCTA />
       <Footer /> */}
