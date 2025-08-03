@@ -3,7 +3,8 @@
 import { useState } from "react"
 import { Button, ScrollArea, ProgressiveBlur } from "@repo/ui"
 import { Plus, Globe } from "lucide-react"
-
+import NextImage from "next/image"
+import AddWebsite from "./AddWebsite"
 
 interface Website {
   id: number
@@ -146,7 +147,7 @@ export default function TabList() {
 
     const newWebsite: Website = {
       id: Date.now(),
-      title: randomSample?.title || "New Website",  
+      title: randomSample?.title || "New Website",
       url: randomSample?.url || "https://example.com",
       favicon: randomSample?.favicon || "https://example.com/favicon.ico",
       status: randomStatus || "loading",
@@ -157,16 +158,13 @@ export default function TabList() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-center">
-        <Button onClick={addNewWebsite} className="flex items-center gap-2">
-          <Plus className="h-4 w-4" />
-          Add Website
-        </Button>
-      </div>
+<AddWebsite addNewWebsite={addNewWebsite} />
 
-      <div className="relative mx-auto border rounded-xl max-h-[50vh] w-[50vw] bg-background mb-12">
+      <div className="relative mx-auto border rounded-xl max-h-[50vh] w-[50vw] bg-background overflow-hidden mb-12">
+        
         <ScrollArea className="relative h-[400px] w-full overflow-scroll">
-          <div className="flex flex-col gap-2 p-4">
+        
+          <div className="flex flex-col gap-2 p-4 pb-18">
             {websites.map((website) => (
               <div
                 key={website.id}
@@ -199,10 +197,10 @@ export default function TabList() {
               </div>
             ))}
           </div>
-          <div className="absolute bottom-0 left-0 right-0">
-            <ProgressiveBlur position="both" height="40%" blurLevels={[1, 2, 4, 8, 16, 32]} />
-          </div>
         </ScrollArea>
+        <ProgressiveBlur className=" absolute inset-x-0 bottom-0 z-50 rounded-b-xl" position="bottom" height="10%" />
+        <ProgressiveBlur className=" absolute inset-x-0 top-0 z-50 rounded-t-xl" position="top" height="10%" />
+
       </div>
     </div>
   )

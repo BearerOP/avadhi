@@ -17,18 +17,17 @@ export default function Navbar() {
     }
 
     return (
-        <nav className="sticky top-0 z-50 flex w-full max-w-7xl mx-auto items-center justify-between py-6 px-6">
+        <nav className="sticky top-0 z-50 flex w-full max-w-4xl mx-auto items-center justify-between py-6 px-6">
 
  {/* sign in modal */}
  {isSignInModalOpen && (
     <SignInModal />
  )}
-
             <motion.div
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, ease: "easeInOut", type: "spring", damping: 10 }}
-                className="flex w-full justify-between items-center bg-black/20 shadow-2xl backdrop-blur-lg border border-white/10 p-6 rounded-2xl"
+                className="flex w-full justify-between items-center bg-black/20 shadow-2xl backdrop-blur-lg border border-white/10 p-2 rounded-2xl"
             >
                 <Link href={"/"} className="flex items-center gap-2 cursor-pointer">
                     <span className="inline-flex items-center gap-2 text-green-200/80 font-bold bg-black/60 px-4 py-2 md:px-6 md:py-3 rounded-2xl uppercase tracking-widest shadow-2xl backdrop-blur-lg text-xs sm:text-sm md:text-base lg:text-lg">
@@ -48,8 +47,8 @@ export default function Navbar() {
                             </Link> */}
                             <Button 
                             onClick={handleSignIn}
-                                size={"xl"}
-                                className="bg-teal-600 hover:bg-teal-700 text-white px-3 py-4 md:px-5 md:py-2 rounded-lg transition-colors duration-200 font-medium text-sm sm:text-base md:text-lg shadow-lg hover:shadow-xl cursor-pointer"
+                                size={"sm"}
+                                className="bg-teal-600 hover:bg-teal-700 text-white px-3 py-4 md:px-5 md:py-2 rounded-lg transition-colors duration-200 font-medium text-sm sm:text-base md:text-sm shadow-lg hover:shadow-xl cursor-pointer"
                             >
                                 Sign In
                             </Button>

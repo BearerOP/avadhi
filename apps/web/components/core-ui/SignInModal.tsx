@@ -1,4 +1,4 @@
-import { Button, Input } from "@repo/ui";
+import { Button } from "@repo/ui";
 
 export default function SignInModal() {
     return (
