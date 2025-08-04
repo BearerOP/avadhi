@@ -5,37 +5,52 @@ import { Button } from "@repo/ui";
 import { useState } from "react";
 import SignInModal from "./SignInModal";
 
-
-
 export default function Navbar() {
-    const [isSignInModalOpen, setIsSignInModalOpen] = useState<boolean>(false)
-    const { user } = { user: false }
+    const [isSignInModalOpen, setIsSignInModalOpen] = useState<boolean>(false);
+    const { user } = { user: false };
 
     // handle sign in modal
     const handleSignIn = () => {
-        setIsSignInModalOpen(true)
-    }
+        setIsSignInModalOpen(true);
+    };
 
     return (
-        <nav className="sticky top-0 z-50 flex w-full max-w-4xl mx-auto items-center justify-between py-6 px-6">
+        <>
+        <SignInModal
+            isOpen={isSignInModalOpen}
+            onClose={() => setIsSignInModalOpen(false)}
+        />
+        <motion.nav
+        
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{
+            duration: 0.5,
+            ease: "easeInOut",
+            type: "spring",
+            damping: 20,
+        }}
+        className="sticky max-w-3xl w-full mx-auto top-4 z-50 flex items-center justify-between place-self-center flex-wrap gap-2 p-2 px-4 mt-4 rounded-xl  h-full bg-teal-700 dark:bg-teal-50/10 shadow-lg shadow-neutral-600/5 backdrop-blur-md ">
+            {/* sign in modal */}
 
- {/* sign in modal */}
- {isSignInModalOpen && (
-    <SignInModal />
- )}
-            <motion.div
-                initial={{ y: -20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5, ease: "easeInOut", type: "spring", damping: 10 }}
-                className="flex w-full justify-between items-center bg-black/20 shadow-2xl backdrop-blur-lg border border-white/10 p-2 rounded-2xl"
+            <div
+               
+                className="flex w-full justify-between items-center text-gray-800 dark:text-gray-200"
             >
                 <Link href={"/"} className="flex items-center gap-2 cursor-pointer">
-                    <span className="inline-flex items-center gap-2 text-green-200/80 font-bold bg-black/60 px-4 py-2 md:px-6 md:py-3 rounded-2xl uppercase tracking-widest shadow-2xl backdrop-blur-lg text-xs sm:text-sm md:text-base lg:text-lg">
-                        <svg className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 text-teal-300" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" /></svg>
+                    <span className="
+                    inline-flex items-center gap-2 text-green-200/80 font-bold  rounded-lg uppercase tracking-widest shadow-2xl  text-xs sm:text-sm p-2">
+                        <svg
+                            className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 text-teal-300"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <circle cx="12" cy="12" r="6" />
+                        </svg>
                         Avadhi
                     </span>
                 </Link>
-                
+
                 <div className="flex gap-2 sm:gap-3 md:gap-4">
                     {!user ? (
                         <>
@@ -45,8 +60,8 @@ export default function Navbar() {
                             >
                                 Login
                             </Link> */}
-                            <Button 
-                            onClick={handleSignIn}
+                            <Button
+                                onClick={handleSignIn}
                                 size={"sm"}
                                 className="bg-teal-600 hover:bg-teal-700 text-white px-3 py-4 md:px-5 md:py-2 rounded-lg transition-colors duration-200 font-medium text-sm sm:text-base md:text-sm shadow-lg hover:shadow-xl cursor-pointer"
                             >
@@ -55,24 +70,27 @@ export default function Navbar() {
                         </>
                     ) : (
                         <div className="flex items-center gap-4">
-                            <Link 
-                                href="/dashboard" 
+                            <Link
+                                href="/dashboard"
                                 className="text-gray-300 hover:text-white transition-colors duration-200 font-medium text-sm sm:text-base md:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg hover:bg-white/10"
                             >
                                 Dashboard
                             </Link>
-                            <Button variant='destructive' className="cursor-pointer text-gray-300 hover:text-white transition-colors duration-200 font-medium text-sm sm:text-base md:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg ">
+                            <Button
+                                variant="destructive"
+                                className="cursor-pointer text-gray-300 hover:text-white transition-colors duration-200 font-medium text-sm sm:text-base md:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg "
+                            >
                                 Logout
                             </Button>
                         </div>
                     )}
                 </div>
-            </motion.div>
-        </nav>
+            </div>
+        </motion.nav>
+        </>
+
     );
 }
-
-
 
 // return (
 //     <nav className="sticky mx-auto wrapper top-0 z-50 flex items-center gap-2 py-6 w-full">
@@ -83,7 +101,7 @@ export default function Navbar() {
 //         className="flex w-full justify-between mx-auto bg-secondary/15 shadow-lg shadow-neutral-600/5 backdrop-blur-lg border border-primary/10 p-6 rounded-2xl"
 //       >
 //         <Link href={"/"} className="flex items-center gap-2 cursor-pointer">
-          
+
 //           <span className="text-lg md:text-2xl font-bold tracking-tight text-foreground hidden md:block">
 //             Avadhi
 //           </span>
@@ -109,4 +127,3 @@ export default function Navbar() {
 //     </nav>
 //   );
 // };
-

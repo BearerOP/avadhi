@@ -154,15 +154,20 @@ export default function TabList() {
   }
 
   return (
-    <div className="space-y-4">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+      className="space-y-4"
+    >
       <AddWebsite addNewWebsite={addNewWebsite} />
 
       <motion.div 
         layout
         transition={{ duration: 0.4, ease: "easeInOut" }}
-        className="relative mx-auto border rounded-xl max-h-[50vh] w-[50vw] bg-background overflow-hidden mb-12"
+        className="relative mx-auto border rounded-xl max-h-[60vh] w-[50vw] bg-background overflow-hidden mb-12"
       >
-        <ScrollArea className="relative h-[400px] w-full overflow-scroll">
+        <ScrollArea className="relative h-[500px] w-full overflow-scroll">
         
           <div className="flex flex-col gap-2 p-4 pb-18">
             {websites.map((website) => (
@@ -202,6 +207,6 @@ export default function TabList() {
         <ProgressiveBlur className=" absolute inset-x-0 top-0 z-50 rounded-t-xl" position="top" height="10%" />
 
       </motion.div>
-    </div>
+    </motion.div>
   )
 }
