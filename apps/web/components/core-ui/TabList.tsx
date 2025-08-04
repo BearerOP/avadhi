@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { Button, ScrollArea, ProgressiveBlur } from "@repo/ui"
-import { Plus, Globe } from "lucide-react"
-import NextImage from "next/image"
+import { motion } from "framer-motion"
+import { ScrollArea, ProgressiveBlur } from "@repo/ui"
+import { Globe } from "lucide-react"
 import AddWebsite from "./AddWebsite"
 
 interface Website {
@@ -101,16 +101,6 @@ const initialWebsites: Website[] = [
   },
 ]
 
-const sampleWebsites = [
-  { title: "Netflix", url: "https://netflix.com", favicon: "https://netflix.com/favicon.ico" },
-  { title: "Spotify", url: "https://spotify.com", favicon: "https://spotify.com/favicon.ico" },
-  { title: "Amazon", url: "https://amazon.com", favicon: "https://amazon.com/favicon.ico" },
-  { title: "Apple", url: "https://apple.com", favicon: "https://apple.com/favicon.ico" },
-  { title: "Microsoft", url: "https://microsoft.com", favicon: "https://microsoft.com/favicon.ico" },
-  { title: "Dropbox", url: "https://dropbox.com", favicon: "https://dropbox.com/favicon.ico" },
-  { title: "Slack", url: "https://slack.com", favicon: "https://slack.com/favicon.ico" },
-]
-
 export default function TabList() {
   const [websites, setWebsites] = useState<Website[]>(initialWebsites)
 
@@ -140,28 +130,38 @@ export default function TabList() {
     }
   }
 
-  const addNewWebsite = () => {
-    const randomSample = sampleWebsites[Math.floor(Math.random() * sampleWebsites.length)]
-    const statuses: Website["status"][] = ["online", "offline", "loading"]
-    const randomStatus = statuses[Math.floor(Math.random() * statuses.length)]
+  const addNewWebsite = (data: { url: string; alias: string; notificationSystem: string }) => {
+    // Ensure URL has protocol
+    const formattedUrl = data.url.startsWith('http') ? data.url : `https://${data.url}`;
+    
+    // Extract domain for favicon
+    const domain = new URL(formattedUrl).hostname;
+    const faviconUrl = `https://${domain}/favicon.ico`;
 
     const newWebsite: Website = {
       id: Date.now(),
-      title: randomSample?.title || "New Website",
-      url: randomSample?.url || "https://example.com",
-      favicon: randomSample?.favicon || "https://example.com/favicon.ico",
-      status: randomStatus || "loading",
+      title: data.alias,
+      url: formattedUrl,
+      favicon: faviconUrl,
+      status: "loading", // Start with loading status
     }
 
-    setWebsites((prev) => [...prev, newWebsite])
+    setWebsites((prev) => [...prev, newWebsite]);
+    
+    // TODO: Here you can also store the notification system preference
+    // For now, we'll just log it
+    console.log(`Website added with notification system: ${data.notificationSystem}`);
   }
 
   return (
     <div className="space-y-4">
-<AddWebsite addNewWebsite={addNewWebsite} />
+      <AddWebsite addNewWebsite={addNewWebsite} />
 
-      <div className="relative mx-auto border rounded-xl max-h-[50vh] w-[50vw] bg-background overflow-hidden mb-12">
-        
+      <motion.div 
+        layout
+        transition={{ duration: 0.4, ease: "easeInOut" }}
+        className="relative mx-auto border rounded-xl max-h-[50vh] w-[50vw] bg-background overflow-hidden mb-12"
+      >
         <ScrollArea className="relative h-[400px] w-full overflow-scroll">
         
           <div className="flex flex-col gap-2 p-4 pb-18">
@@ -201,7 +201,7 @@ export default function TabList() {
         <ProgressiveBlur className=" absolute inset-x-0 bottom-0 z-50 rounded-b-xl" position="bottom" height="10%" />
         <ProgressiveBlur className=" absolute inset-x-0 top-0 z-50 rounded-t-xl" position="top" height="10%" />
 
-      </div>
+      </motion.div>
     </div>
   )
 }
