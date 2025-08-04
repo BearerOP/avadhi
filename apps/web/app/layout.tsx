@@ -4,6 +4,7 @@ import { Poppins } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "sonner";
 import React from "react";
+import { AuthProvider } from "../contexts/AuthContext";
 
 
 export const metadata: Metadata = {
@@ -25,11 +26,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
       <body
         className={`${fontSans.className} min-h-screen bg-neutral-50 dark:bg-neutral-950 overflow-x-hidden antialiased`}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <NextTopLoader color="#85ffc7" height={2} />
-          {children}
-          <Toaster />
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            <NextTopLoader color="#85ffc7" height={2} />
+            {children}
+            <Toaster />
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

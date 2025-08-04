@@ -3,11 +3,13 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@repo/ui";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import SignInModal from "./SignInModal";
+import UserProfile from "./UserProfile";
 
 export default function Navbar() {
     const [isSignInModalOpen, setIsSignInModalOpen] = useState<boolean>(false);
-    const { user } = { user: false };
+    const { data: session, status } = useSession();
 
     // handle sign in modal
     const handleSignIn = () => {
@@ -52,22 +54,16 @@ export default function Navbar() {
                 </Link>
 
                 <div className="flex gap-2 sm:gap-3 md:gap-4">
-                    {!user ? (
-                        <>
-                            {/* <Link 
-                                href="/login" 
-                                className="text-gray-300 hover:text-white transition-colors duration-200 font-medium text-sm sm:text-base md:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg hover:bg-white/10"
-                            >
-                                Login
-                            </Link> */}
-                            <Button
-                                onClick={handleSignIn}
-                                size={"sm"}
-                                className="bg-teal-600 hover:bg-teal-700 text-white px-3 py-4 md:px-5 md:py-2 rounded-lg transition-colors duration-200 font-medium text-sm sm:text-base md:text-sm shadow-lg hover:shadow-xl cursor-pointer"
-                            >
-                                Sign In
-                            </Button>
-                        </>
+                    {status === "loading" ? (
+                        <div className="w-8 h-8 bg-muted animate-pulse rounded"></div>
+                    ) : !session ? (
+                        <Button
+                            onClick={handleSignIn}
+                            size={"sm"}
+                            className="bg-teal-600 hover:bg-teal-700 text-white px-3 py-4 md:px-5 md:py-2 rounded-lg transition-colors duration-200 font-medium text-sm sm:text-base md:text-sm shadow-lg hover:shadow-xl cursor-pointer"
+                        >
+                            Sign In
+                        </Button>
                     ) : (
                         <div className="flex items-center gap-4">
                             <Link
@@ -76,12 +72,7 @@ export default function Navbar() {
                             >
                                 Dashboard
                             </Link>
-                            <Button
-                                variant="destructive"
-                                className="cursor-pointer text-gray-300 hover:text-white transition-colors duration-200 font-medium text-sm sm:text-base md:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg "
-                            >
-                                Logout
-                            </Button>
+                            <UserProfile />
                         </div>
                     )}
                 </div>

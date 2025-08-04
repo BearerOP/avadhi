@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@repo/ui";
 import { X, Github } from "lucide-react";
+import { signIn } from "next-auth/react";
 
 interface SignInModalProps {
   isOpen: boolean;
@@ -84,8 +85,7 @@ export default function SignInModal({ isOpen, onClose }: SignInModalProps) {
                   variant="outline" 
                   className="w-full rounded-xl cursor-pointer justify-center gap-2 h-11 border-border hover:bg-teal-950/30  transition-colors duration-150"
                   onClick={() => {
-                    // Handle Google OAuth
-                    console.log('Google OAuth');
+                    signIn('google', { callbackUrl: '/' });
                   }}
                 >
                   <svg className="w-4 h-4" viewBox="0 0 24 24">
@@ -113,8 +113,7 @@ export default function SignInModal({ isOpen, onClose }: SignInModalProps) {
                   variant="outline" 
                   className="w-full rounded-xl justify-center gap-2 h-11 border-border hover:bg-teal-950/30 transition-colors duration-150"
                   onClick={() => {
-                    // Handle GitHub OAuth
-                    console.log('GitHub OAuth');
+                    signIn('github', { callbackUrl: '/' });
                   }}
                 >
                   <Github className="w-4 h-4" />
