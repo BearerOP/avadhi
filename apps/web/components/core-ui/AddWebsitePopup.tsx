@@ -82,14 +82,14 @@ export default function AddWebsitePopup({ isOpen, onClose, onSubmit }: AddWebsit
           initial={{ opacity: 0, height: 0, y: -20 }}
           animate={{ opacity: 1, height: "auto", y: 0 }}
           exit={{ opacity: 0, height: 0, y: -20 }}
-          transition={{ duration: 0.2, ease: "easeInOut" }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
           className="mt-4 mx-auto w-[50vw] bg-background border rounded-2xl shadow-2xl overflow-hidden"
         >
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2, delay: 0.1 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
             className="p-6"
           >
             <div className="flex items-center justify-between mb-6">
@@ -163,13 +163,13 @@ export default function AddWebsitePopup({ isOpen, onClose, onSubmit }: AddWebsit
                   type="button"
                   variant="outline"
                   onClick={handleClose}
-                  className="flex-1"
+                  className="flex-1 rounded-xl border-teal-500 cursor-pointer"
                 >
                   Cancel
                 </Button>
                 <Button
                   type="submit"
-                  className="flex-1 bg-teal-600 hover:bg-teal-700 text-white"
+                  className="flex-1 rounded-xl cursor-pointer bg-teal-600 hover:bg-teal-700 text-white"
                 >
                   Add Website
                 </Button>
