@@ -14,7 +14,9 @@ export default function Hero() {
             Introducing
           </span>
           <h1 className="tracking-tighter text-5xl md:text-7xl xl:text-8xl text-center font-bold my-2">
-            Avadhi {" "}<span className="text-teal-300">v0.1</span>
+            Avadhi {" "}<span className="-tracking-normal text-4xl text-teal-400 font-medium bg-teal-400/10 px-4 py-1 rounded-full mb-2 align-middle">
+                v0.1
+              </span>
           </h1>
         </div>
         <p className="text-primary/80 max-w-lg text-center tracking-tight md:text-lg font-light">

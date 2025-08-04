@@ -7,6 +7,14 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'appx-wsb-gcp.akamai.net.in',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

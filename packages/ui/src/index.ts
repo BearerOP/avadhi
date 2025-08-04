@@ -19,3 +19,4 @@ export {  Select,
     SelectTrigger,
     SelectValue,} from './select';
 export { Label } from './label';
+export { Separator } from './separator';
