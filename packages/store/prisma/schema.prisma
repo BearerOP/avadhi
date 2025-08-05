@@ -17,20 +17,19 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String?
-  email     String   @unique
-  password  String?   
-  image     String?
-  provider  String?   // 'google', 'github', 'credentials'
-  providerId String? // OAuth provider user ID
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  websites Website[]
-  accounts Account[]
-  sessions Session[]
-
-  @@unique([provider, providerId])
+  id            String    @id @default(uuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime? // Required by NextAuth
+  image         String?
+  password      String?   
+  provider      String?   // 'google', 'github', 'credentials'
+  providerId    String?   // OAuth provider user ID
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  websites      Website[]
+  accounts      Account[]
+  sessions      Session[]
 }
 
 model Account {

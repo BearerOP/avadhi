@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { prismaClient } from "store/client";
-import { auth } from "../../middlewares/user";
+import { nextAuthSessionAuth } from "../../middlewares/nextauth";
 
 const websitesRouter = Router();
 
-websitesRouter.get("/", auth, async (req, res) => {
+websitesRouter.get("/", nextAuthSessionAuth, async (req, res) => {
   try {
     const userId = req.userId as string;
 
@@ -22,7 +22,7 @@ websitesRouter.get("/", auth, async (req, res) => {
   }
 });
 
-websitesRouter.post("/", auth, async (req, res) => {
+websitesRouter.post("/", nextAuthSessionAuth, async (req, res) => {
   try {
     const userId = req.userId as string;
     const { name, url } = req.body;
@@ -59,7 +59,7 @@ websitesRouter.post("/", auth, async (req, res) => {
   }
 });
 
-websitesRouter.patch("/:id", auth, async (req, res) => {
+websitesRouter.patch("/:id", nextAuthSessionAuth, async (req, res) => {
   try {
     const userId = req.userId as string;
     const { id } = req.params;
@@ -96,7 +96,7 @@ websitesRouter.patch("/:id", auth, async (req, res) => {
   }
 });
 
-websitesRouter.delete("/:id", auth, async (req, res) => {
+websitesRouter.delete("/:id", nextAuthSessionAuth, async (req, res) => {
   try {
     const userId = req.userId as string;
     const { id } = req.params;
@@ -121,7 +121,7 @@ websitesRouter.delete("/:id", auth, async (req, res) => {
   }
 });
 
-websitesRouter.get("/status/:websiteId", auth, async (req, res) => {
+websitesRouter.get("/status/:websiteId", nextAuthSessionAuth, async (req, res) => {
   try {
     const userId = req.userId as string;
     const { websiteId } = req.params;
@@ -148,7 +148,7 @@ websitesRouter.get("/status/:websiteId", auth, async (req, res) => {
   }
 });
 
-websitesRouter.get("/:websiteId/logs", auth, async (req, res) => {
+websitesRouter.get("/:websiteId/logs", nextAuthSessionAuth, async (req, res) => {
   try {
     const userId = req.userId as string;
     const { websiteId } = req.params;

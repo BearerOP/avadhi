@@ -53,9 +53,12 @@ export default function Navbar() {
                     </span>
                 </Link>
 
-                <div className="flex gap-2 sm:gap-3 md:gap-4">
+                <div className="flex gap-2 sm:gap-3 md:gap-4 items-center">
                     {status === "loading" ? (
-                        <div className="w-8 h-8 bg-muted animate-pulse rounded"></div>
+                        <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 bg-muted animate-pulse rounded-full"></div>
+                            <div className="w-20 h-4 bg-muted animate-pulse rounded"></div>
+                        </div>
                     ) : !session ? (
                         <Button
                             onClick={handleSignIn}
@@ -65,14 +68,31 @@ export default function Navbar() {
                             Sign In
                         </Button>
                     ) : (
-                        <div className="flex items-center gap-4">
-                            <Link
-                                href="/dashboard"
-                                className="text-gray-300 hover:text-white transition-colors duration-200 font-medium text-sm sm:text-base md:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg hover:bg-white/10"
-                            >
-                                Dashboard
-                            </Link>
-                            <UserProfile />
+                        <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
+                            {/* Welcome message with username */}
+                            <div className="hidden sm:flex items-center gap-2">
+                                <span className="text-gray-300 text-sm">Welcome,</span>
+                                <span className="font-semibold text-white bg-teal-600/30 px-3 py-1 rounded-full border border-teal-400/30 text-sm">
+                                    {session.user?.name || session.user?.email?.split('@')[0] || 'User'}
+                                </span>
+                            </div>
+                            
+                            {/* Mobile version - shorter */}
+                            <div className="sm:hidden flex items-center">
+                                <span className="font-semibold text-white bg-teal-600/30 px-2 py-1 rounded-full border border-teal-400/30 text-xs">
+                                    {session.user?.name?.split(' ')[0] || session.user?.email?.split('@')[0] || 'User'}
+                                </span>
+                            </div>
+                            
+                            <div className="flex items-center gap-2">
+                                <Link
+                                    href="/dashboard"
+                                    className="text-gray-300 hover:text-white transition-colors duration-200 font-medium text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2 rounded-lg hover:bg-white/10 border border-transparent hover:border-teal-400/30"
+                                >
+                                    Dashboard
+                                </Link>
+                                <UserProfile />
+                            </div>
                         </div>
                     )}
                 </div>

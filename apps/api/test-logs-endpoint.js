@@ -1,7 +1,7 @@
 // Test file to demonstrate the new logs endpoint
 // Run this with: node test-logs-endpoint.js
 
-const BASE_URL = 'http://localhost:3000/api/v1';
+const BASE_URL = 'http://localhost:8000/api/v1';
 
 // Example 1: Fetch logs for the last hour (default)
 async function fetchLogsLastHour(websiteId, authToken) {

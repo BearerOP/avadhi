@@ -1,13 +1,11 @@
-import { NextAuthOptions } from "next-auth"
+import type { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import GitHubProvider from "next-auth/providers/github"
 import { PrismaAdapter } from "@auth/prisma-adapter"
-import { PrismaClient } from "store/generated/prisma"
-
-const prisma = new PrismaClient()
+import { prismaClient } from "store/client"
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prismaClient),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -22,17 +20,17 @@ export const authOptions: NextAuthOptions = {
     signIn: '/', // Custom sign-in page
   },
   callbacks: {
-    async session({ session, user }) {
-      if (session?.user) {
-        session.user.id = user.id
-      }
-      return session
+    async signIn({ user, account, profile }: any) {
+      // Simply allow sign-in - let PrismaAdapter handle everything
+      return true;
     },
-    async jwt({ user, token }) {
-      if (user) {
-        token.uid = user.id
+
+    async session({ session, user }: any) {
+      // Minimal session callback - just add user ID
+      if (session?.user && user?.id) {
+        session.user.id = user.id;
       }
-      return token
+      return session;
     },
   },
   session: {
