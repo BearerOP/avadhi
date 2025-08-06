@@ -65,10 +65,30 @@ class AuthenticatedApiClient {
         credentials: 'include', // Important: Include cookies for NextAuth session
       });
 
-      const data = await response.json();
-
+      // Check if response is JSON before parsing
+      const contentType = response.headers.get('content-type');
+      let data: any = {};
+      
+      if (contentType && contentType.includes('application/json')) {
+        try {
+          data = await response.json();
+          console.log('API Response data:', data);
+        } catch (jsonError) {
+          console.warn('Failed to parse JSON response:', jsonError);
+          data = { message: 'Failed to parse server response' };
+        }
+      } else {
+        // For non-JSON responses (like HTML error pages), get text
+        const textResponse = await response.text();
+        console.warn('Non-JSON response received:', textResponse.substring(0, 200));
+        data = { 
+          message: response.ok ? 'Success' : `Server error: ${response.status} ${response.statusText}`,
+          responseText: textResponse.substring(0, 500) // Limit response text
+        };
+      }
+      
       if (!response.ok) {
-        throw new Error(data.message || `HTTP ${response.status}`);
+        throw new Error(data.message || `HTTP ${response.status}: ${response.statusText}`);
       }
 
       return data;
@@ -90,7 +110,7 @@ class AuthenticatedApiClient {
     });
   }
 
-  // Website methods (if you have website-related endpoints)
+  // Website methods
   async getWebsites(): Promise<ApiResponse<any[]>> {
     return this.request<any[]>('/website');
   }
@@ -100,6 +120,10 @@ class AuthenticatedApiClient {
       method: 'POST',
       body: JSON.stringify(websiteData),
     });
+  }
+
+  async getWebsiteById(id: string): Promise<ApiResponse<any>> {
+    return this.request<any>(`/website/${id}/logs`);
   }
 
   // Generic GET method

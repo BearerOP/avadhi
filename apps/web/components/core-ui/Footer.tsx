@@ -1,3 +1,4 @@
+'use client'
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Heart, Github, Mail, Globe } from "lucide-react";

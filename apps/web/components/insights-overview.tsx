@@ -138,7 +138,7 @@ export default function InsightsOverview({ websites }: InsightsOverviewProps) {
       </div>
 
       {/* Detailed Website Breakdown */}
-      <div className="bg-card border rounded-lg p-4">
+      {/* <div className="bg-card border rounded-lg p-4">
         <h3 className="font-medium mb-4">Website Performance Breakdown</h3>
         <div className="space-y-3">
           {websites.map((website) => (
@@ -175,7 +175,7 @@ export default function InsightsOverview({ websites }: InsightsOverviewProps) {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

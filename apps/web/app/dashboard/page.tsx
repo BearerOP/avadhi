@@ -28,7 +28,7 @@ export default function DashboardPage() {
   const [isLoadingUser, setIsLoadingUser] = useState(false)
   const [isLoadingWebsites, setIsLoadingWebsites] = useState(false)
   const [isLoadingInsights, setIsLoadingInsights] = useState(false)
-  const [realWebsitesData] = useState<WebsiteOverviewData[]>([])
+  const [realWebsitesData, setRealWebsitesData] = useState<WebsiteOverviewData[]>([])
   const [error, setError] = useState<string | null>(null)
   const [isAddWebsiteModalOpen, setIsAddWebsiteModalOpen] = useState(false)
   
@@ -38,7 +38,7 @@ export default function DashboardPage() {
   
   // Use real data if available, fallback to demo data
   const websitesOverviewData = useMemo(() => {
-    return  realWebsitesData 
+    return realWebsitesData.length > 0 ? realWebsitesData : []
   }, [realWebsitesData])
 
   // Fetch user data from API
@@ -118,16 +118,27 @@ export default function DashboardPage() {
     }
   }, [apiClient])
 
-  // For now, just use demo data (real database integration coming soon)
+  // Fetch real website overview data with insights
   useEffect(() => {
-    if (session?.user && !isLoadingInsights) {
-      setIsLoadingInsights(true)
-      // Use demo data for now
-      setTimeout(() => {
-        setIsLoadingInsights(false)
-      }, 1000 * 5 * 60)
+    const fetchRealWebsiteData = async () => {
+      if (session?.user?.id && !isLoadingInsights && realWebsitesData.length === 0) {
+        setIsLoadingInsights(true)
+        try {
+          const { getWebsiteOverviewData } = await import("../../lib/website-analytics")
+          const overviewData = await getWebsiteOverviewData(session.user.id)
+          setRealWebsitesData(overviewData)
+          setError(null)
+        } catch (err) {
+          console.error('Failed to fetch website overview data:', err)
+          setError('Failed to load website insights. Using fallback data.')
+        } finally {
+          setIsLoadingInsights(false)
+        }
+      }
     }
-  }, [session?.user, isLoadingInsights])
+
+    fetchRealWebsiteData()
+  }, [session?.user?.id, isLoadingInsights, realWebsitesData.length])
 
   return (
     <ProtectedRoute>
@@ -183,7 +194,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Website Monitoring Dashboard */}
-          <div className="mb-8">
+          {/* <div className="mb-8">
             <h2 className="text-xl font-semibold mb-4">
               Website Monitoring {realWebsitesData.length === 0 ? "(Demo)" : ""}
             </h2>
@@ -202,7 +213,7 @@ export default function DashboardPage() {
                 currentStatus: website.currentStatus || "UNKNOWN"
               }))} />
             )}
-          </div>
+          </div> */}
 
           {/* Original API Websites */}
           <div className="bg-card border rounded-lg p-6">

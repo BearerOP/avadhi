@@ -5,11 +5,10 @@ export enum WebsiteTickStatus {
   UNKNOWN = "UNKNOWN",
 }
 
-// Real database integration functions - commented out for now, using demo data
-/*
+// Real database integration functions
 export async function getWebsiteById(id: string): Promise<WebsiteWithTicks | null> {
   try {
-    const { client: prisma } = await import("@repo/store")
+    const { client: prisma } = await import("store/client")
     const website = await prisma.website.findUnique({
       where: { id },
     })
@@ -22,7 +21,7 @@ export async function getWebsiteById(id: string): Promise<WebsiteWithTicks | nul
 
 export async function getWebsitesByUserId(userId: string): Promise<WebsiteWithTicks[]> {
   try {
-    const { client: prisma } = await import("@repo/store")
+    const { client: prisma } = await import("store/client")
     const websites = await prisma.website.findMany({
       where: { user_id: userId },
       orderBy: { createdAt: "desc" },
@@ -36,7 +35,7 @@ export async function getWebsitesByUserId(userId: string): Promise<WebsiteWithTi
 
 export async function getWebsiteTicks(websiteId: string, limit = 50, hours = 24): Promise<WebsiteTickData[]> {
   try {
-    const { client: prisma } = await import("@repo/store")
+    const { client: prisma } = await import("store/client")
     const since = new Date(Date.now() - hours * 60 * 60 * 1000)
 
     const ticks = await prisma.websiteTick.findMany({
@@ -60,9 +59,9 @@ export async function getWebsiteTicks(websiteId: string, limit = 50, hours = 24)
   }
 }
 
-export async function calculateRealWebsiteInsights(websiteId: string): Promise<WebsiteInsights> {
+export async function calculateWebsiteInsights(websiteId: string): Promise<WebsiteInsights> {
   try {
-    const { client: prisma } = await import("@repo/store")
+    const { client: prisma } = await import("store/client")
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
 
     // Get all ticks for the last 30 days
@@ -190,7 +189,7 @@ export async function calculateRealWebsiteInsights(websiteId: string): Promise<W
 
 export async function getLatestWebsiteStatus(websiteId: string): Promise<WebsiteTickStatus> {
   try {
-    const { client: prisma } = await import("@repo/store")
+    const { client: prisma } = await import("store/client")
     const latestTick = await prisma.websiteTick.findFirst({
       where: { website_id: websiteId },
       orderBy: { createdAt: "desc" },
@@ -202,10 +201,9 @@ export async function getLatestWebsiteStatus(websiteId: string): Promise<Website
     return WebsiteTickStatus.UNKNOWN
   }
 }
-*/
 
 // Get all websites with their current status and insights for a user  
-export async function getRealWebsiteOverviewData(userId: string): Promise<WebsiteOverviewData[]> {
+export async function getWebsiteOverviewData(userId: string): Promise<WebsiteOverviewData[]> {
   try {
     const websites = await getWebsitesByUserId(userId)
     
@@ -217,7 +215,7 @@ export async function getRealWebsiteOverviewData(userId: string): Promise<Websit
       websites.map(async (website) => {
         const [currentStatus, insights] = await Promise.all([
           getLatestWebsiteStatus(website.id),
-          calculateRealWebsiteInsights(website.id)
+          calculateWebsiteInsights(website.id)
         ])
 
         return {
@@ -230,7 +228,7 @@ export async function getRealWebsiteOverviewData(userId: string): Promise<Websit
 
     return websiteOverviews
   } catch (error) {
-    console.error("Error fetching real website overview data:", error)
+    console.error("Error fetching website overview data:", error)
     return []
   }
 }

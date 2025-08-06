@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: "Get your website status in real-time and get notified when they are down.",
 };
 import { ThemeProvider } from "../components/themeProvider";
+import Navbar from "../components/core-ui/Navbar";
+import Footer from "../components/core-ui/Footer";
 
 const fontSans = Poppins({
   subsets: ["latin"],
@@ -29,7 +31,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
         <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <NextTopLoader color="#85ffc7" height={2} />
+            <Navbar />
+
             {children}
+            <Footer />
             <Toaster richColors position="bottom-center" />
           </ThemeProvider>
         </AuthProvider>

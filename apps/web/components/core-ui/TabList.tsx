@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { ScrollArea, ProgressiveBlur } from "@repo/ui"
 import { Globe } from "lucide-react"
 import AddWebsite from "./AddWebsite"
+import { useRouter } from "next/navigation"
 
 interface Website {
   id: string
@@ -20,7 +21,7 @@ interface TabListProps {
 }
 
 export default function TabList({ websites, onAddWebsite, isLoading = false }: TabListProps) {
-
+  const router = useRouter()
   const getFaviconUrl = (url: string) => {
     try {
       const domain = new URL(url).hostname;
@@ -53,6 +54,11 @@ export default function TabList({ websites, onAddWebsite, isLoading = false }: T
             ) : websites.length > 0 ? (
               websites.map((website) => (
                 <div
+                  onClick={() => {
+                    console.log('website',website.id);
+                    
+                    router.push(`/dashboard/${website.id}`)
+                  }}
                   key={website.id}
                   className="flex min-h-20 w-full items-center justify-between rounded-xl bg-card border p-4 hover:bg-accent/50 transition-colors"
                 >

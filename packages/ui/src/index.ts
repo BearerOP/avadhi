@@ -20,3 +20,5 @@ export {  Select,
     SelectValue,} from './select';
 export { Label } from './label';
 export { Separator } from './separator';
+export { Badge } from './badge';
+export { Tabs, TabsList, TabsTrigger, TabsContent } from './tabs';
