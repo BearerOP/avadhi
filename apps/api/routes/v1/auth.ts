@@ -11,10 +11,6 @@ authRouter.get("/google", (req: Request, res: Response) => {
         return res.status(500).json({ error: "Google OAuth not configured" });
     }
 
-    console.log(process.env.GOOGLE_CLIENT_ID,'GOOGLE_CLIENT_ID');
-    console.log(process.env.GOOGLE_CLIENT_SECRET,'GOOGLE_CLIENT_SECRET');
-    console.log(process.env.API_BASE_URL,'API_BASE_URL');
-
     const redirectUri = `${process.env.API_BASE_URL || 'http://localhost:3001'}/api/v1/auth/google/callback`;
     const scope = "openid profile email";
     const state = Math.random().toString(36).substring(2, 15);

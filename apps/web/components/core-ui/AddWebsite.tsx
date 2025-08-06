@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Button } from "@repo/ui";
 import { Plus } from "lucide-react";
 import AddWebsitePopup from "./AddWebsitePopup";
+import { useSession } from "next-auth/react";
+import SignInModal from "./SignInModal";
 
 interface AddWebsiteProps {
   addNewWebsite: (data: { url: string; alias: string; notificationSystem: string }) => void;
@@ -11,7 +13,13 @@ interface AddWebsiteProps {
 
 export default function AddWebsite({ addNewWebsite }: AddWebsiteProps) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
   const [toggle, setToggle] = useState(0);
+  const { data: session } = useSession()
+  
+  const handleCloseSignInModal = useCallback(() => {
+    setIsSignInModalOpen(false);
+  }, []);
 
   const handleAddWebsite = (data: { url: string; alias: string; notificationSystem: string }) => {
     addNewWebsite(data);
@@ -20,10 +28,14 @@ export default function AddWebsite({ addNewWebsite }: AddWebsiteProps) {
   };
 
   return (
-    <div className="flex flex-col mx-auto w-[50vw]">
+    <div className="flex flex-col mx-auto max w-2xl">
       <div className="flex justify-center p-4 border rounded-3xl bg-background">
         <Button
-          onClick={() => {
+          onClick={(e) => {
+           e.stopPropagation();
+           if(!session?.user){
+            setIsSignInModalOpen(true);
+           }else{
             setIsPopupOpen(true);
             setToggle(toggle + 1);
             // Scroll down by 50vh to bring popup into view
@@ -35,7 +47,7 @@ export default function AddWebsite({ addNewWebsite }: AddWebsiteProps) {
                 });
               }, 100);
             }
-          }}
+          }}}
           className="transition-all duration-300 border border-dashed border-teal-500 bg-transparent hover:bg-teal-950 text-muted-foreground flex min-h-20 w-full items-center justify-center rounded-xl cursor-pointer"
         >
           <Plus className="h-4 w-4 mr-2" />
@@ -47,6 +59,11 @@ export default function AddWebsite({ addNewWebsite }: AddWebsiteProps) {
         isOpen={isPopupOpen}
         onClose={() => setIsPopupOpen(false)}
         onSubmit={handleAddWebsite}
+      />
+      
+      <SignInModal
+        isOpen={isSignInModalOpen}
+        onClose={handleCloseSignInModal}
       />
     </div>
   );

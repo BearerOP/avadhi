@@ -2,10 +2,13 @@
 
 import ProtectedRoute from "../../components/auth/ProtectedRoute"
 import { useSession } from "next-auth/react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo, useCallback, useRef } from "react"
 import { useApiClient, fetchCurrentUser, type User as ApiUser } from "../../lib/api-client"
 import { Button } from "@repo/ui"
 import { Plus, Globe, Clock, CheckCircle, XCircle } from "lucide-react"
+import TabList from "../../components/tab-list"
+import InsightsOverview from "../../components/insights-overview"
+import AddWebsitePopup from "../../components/core-ui/AddWebsitePopup"
 
 interface Website {
   id: string
@@ -15,6 +18,8 @@ interface Website {
   updatedAt: string
 }
 
+import type { WebsiteOverviewData } from "../../lib/website-analytics"
+
 export default function DashboardPage() {
   const { data: session } = useSession()
   const apiClient = useApiClient()
@@ -22,45 +27,107 @@ export default function DashboardPage() {
   const [websites, setWebsites] = useState<Website[]>([])
   const [isLoadingUser, setIsLoadingUser] = useState(false)
   const [isLoadingWebsites, setIsLoadingWebsites] = useState(false)
+  const [isLoadingInsights, setIsLoadingInsights] = useState(false)
+  const [realWebsitesData] = useState<WebsiteOverviewData[]>([])
   const [error, setError] = useState<string | null>(null)
+  const [isAddWebsiteModalOpen, setIsAddWebsiteModalOpen] = useState(false)
+  
+  // Use refs to track if data has been fetched to avoid infinite loops
+  const userFetched = useRef(false)
+  const websitesFetched = useRef(false)
+  
+  // Use real data if available, fallback to demo data
+  const websitesOverviewData = useMemo(() => {
+    return  realWebsitesData 
+  }, [realWebsitesData])
 
   // Fetch user data from API
-  useEffect(() => {
-    if (session?.user?.id && !apiUser && !isLoadingUser) {
-      setIsLoadingUser(true)
-      fetchCurrentUser()
-        .then((user) => {
-          setApiUser(user)
-          setError(null)
-        })
-        .catch((err) => {
-          console.error('Failed to fetch user from API:', err)
-          setError('Failed to load user data from API')
-        })
-        .finally(() => {
-          setIsLoadingUser(false)
-        })
+  const fetchUser = useCallback(async () => {
+    if (isLoadingUser || userFetched.current) return
+    
+    setIsLoadingUser(true)
+    userFetched.current = true
+    
+    try {
+      const user = await fetchCurrentUser()
+      setApiUser(user)
+      setError(null)
+    } catch (err) {
+      console.error('Failed to fetch user from API:', err)
+      setError('Failed to load user data from API')
+      userFetched.current = false // Reset on error to allow retry
+    } finally {
+      setIsLoadingUser(false)
     }
-  }, [session?.user?.id, apiUser]) // Only depend on user ID and apiUser state
+  }, [isLoadingUser])
+
+  useEffect(() => {
+    if (session?.user && !apiUser) {
+      fetchUser()
+    }
+  }, [session?.user, apiUser, fetchUser])
 
   // Fetch websites data from API
-  useEffect(() => {
-    if (session?.user?.id && websites.length === 0 && !isLoadingWebsites) {
-      setIsLoadingWebsites(true)
-      apiClient.getWebsites()
-        .then((response) => {
-          setWebsites(response.data || [])
-          setError(null)
-        })
-        .catch((err) => {
-          console.error('Failed to fetch websites:', err)
-          setError('Failed to load websites. Make sure you are signed in.')
-        })
-        .finally(() => {
-          setIsLoadingWebsites(false)
-        })
+  const fetchWebsites = useCallback(async () => {
+    if (isLoadingWebsites || websitesFetched.current) return
+    
+    setIsLoadingWebsites(true)
+    websitesFetched.current = true
+    
+    try {
+      const response = await apiClient.getWebsites()
+      console.log('response', response)
+      setWebsites(response.data || [])
+      setError(null)
+    } catch (err) {
+      console.error('Failed to fetch websites:', err)
+      setError('Failed to load websites. Make sure you are signed in.')
+      websitesFetched.current = false // Reset on error to allow retry
+    } finally {
+      setIsLoadingWebsites(false)
     }
-  }, [session?.user?.id, websites.length]) // Only depend on user ID and websites length
+  }, [apiClient, isLoadingWebsites])
+
+  useEffect(() => {
+    if (session?.user && websites.length === 0) {
+      fetchWebsites()
+    }
+  }, [session?.user, websites.length, fetchWebsites])
+
+  // Handle add website submission
+  const handleAddWebsite = useCallback(async (data: { url: string; alias: string; notificationSystem: string }) => {
+    try {
+      setError(null)
+      const response = await apiClient.createWebsite({
+        name: data.alias,
+        url: data.url
+      })
+
+      if (response.data) {
+        // Add the new website to the list
+        setWebsites(prev => [...prev, response.data])
+        setIsAddWebsiteModalOpen(false)
+        
+        // Show success message temporarily
+        setError(null)
+      }
+    } catch (err) {
+      console.error('Failed to add website:', err)
+      const errorMessage = err instanceof Error ? err.message : 'Failed to add website. Please try again.'
+      setError(errorMessage)
+    }
+  }, [apiClient])
+
+  // For now, just use demo data (real database integration coming soon)
+  useEffect(() => {
+    if (session?.user && !isLoadingInsights) {
+      setIsLoadingInsights(true)
+      // Use demo data for now
+      setTimeout(() => {
+        setIsLoadingInsights(false)
+      }, 1000 * 5 * 60)
+    }
+  }, [session?.user, isLoadingInsights])
 
   return (
     <ProtectedRoute>
@@ -82,11 +149,11 @@ export default function DashboardPage() {
           <div className="bg-card border rounded-lg p-6 mb-6">
             <h2 className="text-xl font-semibold mb-4">Welcome back!</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
+            <div className="space-y-2">
                 <h3 className="font-medium text-lg">NextAuth Session</h3>
-                <p><strong>Name:</strong> {session?.user?.name || 'Not provided'}</p>
-                <p><strong>Email:</strong> {session?.user?.email}</p>
-                <p><strong>User ID:</strong> {session?.user?.id}</p>
+              <p><strong>Name:</strong> {session?.user?.name || 'Not provided'}</p>
+              <p><strong>Email:</strong> {session?.user?.email}</p>
+                <p><strong>User ID:</strong> {(session?.user as { id?: string })?.id || 'Not available'}</p>
               </div>
               <div className="space-y-2">
                 <h3 className="font-medium text-lg">Backend API Data</h3>
@@ -110,11 +177,42 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Websites */}
+          {/* Monitoring Insights */}
+          <div className="mb-8">
+            <InsightsOverview websites={websitesOverviewData} />
+          </div>
+
+          {/* Website Monitoring Dashboard */}
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold mb-4">
+              Website Monitoring {realWebsitesData.length === 0 ? "(Demo)" : ""}
+            </h2>
+            {isLoadingInsights ? (
+              <div className="text-center py-8">
+                <div className="text-muted-foreground">Loading insights...</div>
+              </div>
+            ) : (
+              <TabList initialWebsites={websitesOverviewData.map((website: WebsiteOverviewData) => ({
+                id: website.id,
+                name: website.name,
+                url: website.url,
+                createdAt: new Date(website.createdAt),
+                updatedAt: new Date(website.updatedAt),
+                user_id: website.user_id,
+                currentStatus: website.currentStatus || "UNKNOWN"
+              }))} />
+            )}
+          </div>
+
+          {/* Original API Websites */}
           <div className="bg-card border rounded-lg p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">Your Websites</h2>
-              <Button className="gap-2" size="sm">
+              <h2 className="text-xl font-semibold">Your API Websites</h2>
+              <Button 
+                className="gap-2" 
+                size="sm"
+                onClick={() => setIsAddWebsiteModalOpen(true)}
+              >
                 <Plus className="w-4 h-4" />
                 Add Website
               </Button>
@@ -146,11 +244,14 @@ export default function DashboardPage() {
             ) : (
               <div className="text-center py-8">
                 <Globe className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
-                <h3 className="font-medium mb-2">No websites yet</h3>
+                <h3 className="font-medium mb-2">No API websites yet</h3>
                 <p className="text-muted-foreground mb-4">
-                  Add your first website to start monitoring.
+                  Add your first website to start real monitoring.
                 </p>
-                <Button className="gap-2">
+                <Button 
+                  className="gap-2"
+                  onClick={() => setIsAddWebsiteModalOpen(true)}
+                >
                   <Plus className="w-4 h-4" />
                   Add Your First Website
                 </Button>
@@ -159,6 +260,13 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Add Website Modal */}
+      <AddWebsitePopup 
+        isOpen={isAddWebsiteModalOpen}
+        onClose={() => setIsAddWebsiteModalOpen(false)}
+        onSubmit={handleAddWebsite}
+      />
     </ProtectedRoute>
   )
 }

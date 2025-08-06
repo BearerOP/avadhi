@@ -30,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <NextTopLoader color="#85ffc7" height={2} />
             {children}
-            <Toaster />
+            <Toaster richColors position="bottom-center" />
           </ThemeProvider>
         </AuthProvider>
       </body>
