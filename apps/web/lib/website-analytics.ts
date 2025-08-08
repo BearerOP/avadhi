@@ -1,4 +1,4 @@
-// Define enum locally to avoid import issues
+
 export enum WebsiteTickStatus {
   UP = "UP",
   DOWN = "DOWN",
