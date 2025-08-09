@@ -191,4 +191,38 @@ websitesRouter.get("/:websiteId/logs", nextAuthSessionAuth, async (req, res) => 
   }
 });
 
+websitesRouter.get("/:websiteId/ticks", nextAuthSessionAuth, async (req, res) => {
+  try {
+    const userId = req.userId as string;
+    const { websiteId } = req.params;
+    const query = req.query;
+    const limit = Number(query.limit) || 100;
+    const hours = Number(query.hours) || 24;
+
+    const ticks = await prismaClient.websiteTick.findMany({
+      where: {
+        website_id: websiteId,
+        createdAt: {
+          gte: new Date(Date.now() - Number(hours) * 60 * 60 * 1000),
+        },
+      },
+      orderBy: { createdAt: "desc" },
+      take: limit,
+      include: {
+        Region: true,
+      },
+    });
+
+    console.log(ticks);
+
+    res.status(200).json({
+      message: "Website ticks fetched successfully",
+      data: ticks,
+    });
+  } catch (error) {
+    console.error("Get website ticks error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 export default websitesRouter;

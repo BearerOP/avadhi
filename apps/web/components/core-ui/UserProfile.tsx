@@ -79,7 +79,7 @@ export default function UserProfile() {
         variant="outline"
         size="sm"
         onClick={() => signOut({ callbackUrl: '/' })}
-        className="gap-1 bg-teal-600/20 border-teal-400/30 text-gray-200 hover:bg-teal-600/30 hover:text-white px-2 py-1 h-8 text-xs"
+        className="gap-1 bg-teal-600/20 border-teal-400/30 text-gray-200 hover:bg-teal-600/30 hover:text-white px-2 py-1 h-8 text-xs rounded-lg cursor-pointer"
       >
         <LogOut className="w-3 h-3" />
         <span className="hidden sm:inline">Sign Out</span>

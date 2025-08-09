@@ -126,6 +126,16 @@ class AuthenticatedApiClient {
     return this.request<any>(`/website/${id}/logs`);
   }
 
+  // Website status (basic website record)
+  async getWebsiteStatus(websiteId: string): Promise<ApiResponse<any>> {
+    return this.request<any>(`/website/status/${websiteId}`)
+  }
+
+  // Get website ticks
+  async getWebsiteTicks(websiteId: string, limit = 50, hours = 24): Promise<ApiResponse<any[]>> {
+    return this.request<any[]>(`/website/${websiteId}/ticks?limit=${limit}&hours=${hours}`);
+  }
+
   // Generic GET method
   async get<T>(endpoint: string): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint);

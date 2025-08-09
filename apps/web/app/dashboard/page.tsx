@@ -2,14 +2,13 @@
 
 import ProtectedRoute from "../../components/auth/ProtectedRoute"
 import { useSession } from "next-auth/react"
-import { useState, useEffect, useMemo, useCallback, useRef } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import { useApiClient, fetchCurrentUser, type User as ApiUser } from "../../lib/api-client"
 import { Button } from "@repo/ui"
 import { Plus, Globe, Clock, CheckCircle, XCircle } from "lucide-react"
 import TabList from "../../components/core-ui/TabList"
-import InsightsOverview from "../../components/insights-overview"
 import AddWebsitePopup from "../../components/core-ui/AddWebsitePopup"
-import { getWebsiteOverviewData } from "../../lib/website-analytics"
+// import { getWebsiteOverviewData } from "../../lib/website-analytics"
 import type { WebsiteOverviewData } from "../../lib/website-analytics"
 
 interface Website {
@@ -37,11 +36,9 @@ export default function DashboardPage() {
   // Use refs to track if data has been fetched to avoid infinite loops
   const userFetched = useRef(false)
   const websitesFetched = useRef(false)
+  const isFetchingWebsitesRef = useRef(false)
   
-  // Use real data if available, fallback to demo data
-  const websitesOverviewData = useMemo(() => {
-    return realWebsitesData.length > 0 ? realWebsitesData : []
-  }, [realWebsitesData])
+  // Note: overview data memo removed as it was unused
 
   // Fetch user data from API
   const fetchUser = useCallback(async () => {
@@ -71,24 +68,28 @@ export default function DashboardPage() {
 
   // Fetch websites data from API
   const fetchWebsites = useCallback(async (force: boolean = false) => {
-    if (isLoadingWebsites || (websitesFetched.current && !force)) return
+    if (isFetchingWebsitesRef.current || (websitesFetched.current && !force)) return
     
+    isFetchingWebsitesRef.current = true
     setIsLoadingWebsites(true)
-    websitesFetched.current = true
     
     try {
       const response = await apiClient.getWebsites()
       console.log('response', response)
       setWebsites(response.data || [])
       setError(null)
+      // Mark as fetched only when we have a successful response
+      websitesFetched.current = true
     } catch (err) {
       console.error('Failed to fetch websites:', err)
       setError('Failed to load websites. Make sure you are signed in.')
-      websitesFetched.current = false // Reset on error to allow retry
+      // Allow retry on error
+      websitesFetched.current = false
     } finally {
       setIsLoadingWebsites(false)
+      isFetchingWebsitesRef.current = false
     }
-  }, [apiClient, isLoadingWebsites])
+  }, [apiClient])
 
   useEffect(() => {
     if (session?.user && websites.length === 0) {
@@ -135,26 +136,26 @@ export default function DashboardPage() {
   }, [apiClient])
 
   // Fetch real website overview data with insights
-  useEffect(() => {
-    const fetchRealWebsiteData = async () => {
-      const userId = (session?.user as { id?: string } | undefined)?.id
-      if (userId && !isLoadingInsights && realWebsitesData.length === 0) {
-        setIsLoadingInsights(true)
-        try {
-          const overviewData = await getWebsiteOverviewData(userId)
-          setRealWebsitesData(overviewData)
-          setError(null)
-        } catch (err) {
-          console.error('Failed to fetch website overview data:', err)
-          setError('Failed to load website insights. Using fallback data.')
-        } finally {
-          setIsLoadingInsights(false)
-        }
-      }
-    }
+  // useEffect(() => {
+  //   const fetchRealWebsiteData = async () => {
+  //     const userId = (session?.user as { id?: string } | undefined)?.id
+  //     if (userId && !isLoadingInsights && realWebsitesData.length === 0) {
+  //       setIsLoadingInsights(true)
+  //       try {
+  //         const overviewData = await getWebsiteOverviewData(userId)
+  //         setRealWebsitesData(overviewData)
+  //         setError(null)
+  //       } catch (err) {
+  //         console.error('Failed to fetch website overview data:', err)
+  //         setError('Failed to load website insights. Using fallback data.')
+  //       } finally {
+  //         setIsLoadingInsights(false)
+  //       }
+  //     }
+  //   }
 
-    fetchRealWebsiteData()
-  }, [session?.user, realWebsitesData.length])
+  //   fetchRealWebsiteData()
+  // }, [session?.user, realWebsitesData.length, isLoadingInsights])
 
   return (
     <ProtectedRoute>

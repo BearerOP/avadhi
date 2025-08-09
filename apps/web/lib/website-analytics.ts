@@ -34,21 +34,20 @@ export async function getWebsitesByUserId(userId: string): Promise<WebsiteWithTi
 
 export async function getWebsiteTicks(websiteId: string, limit = 50, hours = 24): Promise<WebsiteTickData[]> {
   try {
-    const since = new Date(Date.now() - hours * 60 * 60 * 1000)
-
+    console.log(websiteId,'websiteId');
+    
     const ticks = await client.websiteTick.findMany({
       where: {
         website_id: websiteId,
-        createdAt: {
-          gte: since,
-        },
       },
       include: {
         Region: true,
       },
       orderBy: { createdAt: "desc" },
-      take: limit,
+      take: 50,
     })
+
+    console.log(ticks,'ticks')
 
     return ticks as WebsiteTickData[]
   } catch (error) {

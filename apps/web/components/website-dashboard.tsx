@@ -119,8 +119,8 @@ export default function WebsiteDashboard({ website, insights, ticks, currentStat
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Link href="/dashboard">
-                <Button variant="ghost" size="sm" className="gap-2">
+              <Link className="cursor-pointer" href="/dashboard">
+                <Button variant="ghost" size="sm" className="gap-2 cursor-pointer">
                   <ArrowLeft className="h-4 w-4" />
                   Back to Dashboard
                 </Button>
