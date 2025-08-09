@@ -39,7 +39,7 @@ export default function Landing() {
     finally {
       setIsLoading(false)
     }
-  }, [session?.user])
+  }, [session?.user, apiClient])
 
   // Handle add website submission
   const handleAddWebsite = useCallback(async (data: { url: string; alias: string; notificationSystem: string }) => {
@@ -59,20 +59,28 @@ export default function Landing() {
   }, [apiClient])
 
   useEffect(() => {
-    if (session?.user) {
+    if (!session?.user) return
+    
+    fetchWebsites()
+    const intervalId = setInterval(() => {
       fetchWebsites()
-    }
+    }, 5 * 60 * 1000) // 5 minutes
+    
+    return () => clearInterval(intervalId)
   }, [session?.user, fetchWebsites])
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col min-h-screen bg-background overflow-hidden bg-gradient-to-b from-background to-teal-950/20 ">
       <Hero/>
+      <div className='flex flex-col items-center justify-center max-w-7xl mx-auto gap-4 px-4 py-8'>
+
       
       <TabList 
         websites={session?.user ? websites : []}
         onAddWebsite={handleAddWebsite}
         isLoading={isLoading}
-      />
+        />
+        </div>
     </div>
   );
 }

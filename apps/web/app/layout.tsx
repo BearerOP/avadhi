@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${fontSans.className} min-h-screen bg-neutral-50 dark:bg-neutral-950 overflow-x-hidden antialiased`}
+        className={`${fontSans.className} min-h-screen bg-neutral-50 dark:bg-neutral-950 overflow-x-hidden antialiased `}
       >
         <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>

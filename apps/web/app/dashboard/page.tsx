@@ -6,9 +6,11 @@ import { useState, useEffect, useMemo, useCallback, useRef } from "react"
 import { useApiClient, fetchCurrentUser, type User as ApiUser } from "../../lib/api-client"
 import { Button } from "@repo/ui"
 import { Plus, Globe, Clock, CheckCircle, XCircle } from "lucide-react"
-import TabList from "../../components/tab-list"
+import TabList from "../../components/core-ui/TabList"
 import InsightsOverview from "../../components/insights-overview"
 import AddWebsitePopup from "../../components/core-ui/AddWebsitePopup"
+import { getWebsiteOverviewData } from "../../lib/website-analytics"
+import type { WebsiteOverviewData } from "../../lib/website-analytics"
 
 interface Website {
   id: string
@@ -18,7 +20,7 @@ interface Website {
   updatedAt: string
 }
 
-import type { WebsiteOverviewData } from "../../lib/website-analytics"
+
 
 export default function DashboardPage() {
   const { data: session } = useSession()
@@ -68,8 +70,8 @@ export default function DashboardPage() {
   }, [session?.user, apiUser, fetchUser])
 
   // Fetch websites data from API
-  const fetchWebsites = useCallback(async () => {
-    if (isLoadingWebsites || websitesFetched.current) return
+  const fetchWebsites = useCallback(async (force: boolean = false) => {
+    if (isLoadingWebsites || (websitesFetched.current && !force)) return
     
     setIsLoadingWebsites(true)
     websitesFetched.current = true
@@ -93,6 +95,20 @@ export default function DashboardPage() {
       fetchWebsites()
     }
   }, [session?.user, websites.length, fetchWebsites])
+
+  // Poll websites every 5 minutes
+  useEffect(() => {
+    if (!session?.user) return
+    
+    // initial immediate refresh
+    fetchWebsites(true)
+    
+    const intervalId = setInterval(() => {
+      fetchWebsites(true)
+    }, 5 * 60 * 1000) // 5 minutes
+    
+    return () => clearInterval(intervalId)
+  }, [session?.user, fetchWebsites])
 
   // Handle add website submission
   const handleAddWebsite = useCallback(async (data: { url: string; alias: string; notificationSystem: string }) => {
@@ -121,11 +137,11 @@ export default function DashboardPage() {
   // Fetch real website overview data with insights
   useEffect(() => {
     const fetchRealWebsiteData = async () => {
-      if (session?.user?.id && !isLoadingInsights && realWebsitesData.length === 0) {
+      const userId = (session?.user as { id?: string } | undefined)?.id
+      if (userId && !isLoadingInsights && realWebsitesData.length === 0) {
         setIsLoadingInsights(true)
         try {
-          const { getWebsiteOverviewData } = await import("../../lib/website-analytics")
-          const overviewData = await getWebsiteOverviewData(session.user.id)
+          const overviewData = await getWebsiteOverviewData(userId)
           setRealWebsitesData(overviewData)
           setError(null)
         } catch (err) {
@@ -138,7 +154,7 @@ export default function DashboardPage() {
     }
 
     fetchRealWebsiteData()
-  }, [session?.user?.id, isLoadingInsights, realWebsitesData.length])
+  }, [session?.user, realWebsitesData.length])
 
   return (
     <ProtectedRoute>
@@ -157,7 +173,7 @@ export default function DashboardPage() {
           )}
 
           {/* User Info */}
-          <div className="bg-card border rounded-lg p-6 mb-6">
+          <div className="bg-card border rounded-lg p-6 mb-6 hidden">
             <h2 className="text-xl font-semibold mb-4">Welcome back!</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
@@ -188,10 +204,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Monitoring Insights */}
-          <div className="mb-8">
-            <InsightsOverview websites={websitesOverviewData} />
-          </div>
+          
 
           {/* Website Monitoring Dashboard */}
           {/* <div className="mb-8">
@@ -216,7 +229,7 @@ export default function DashboardPage() {
           </div> */}
 
           {/* Original API Websites */}
-          <div className="bg-card border rounded-lg p-6">
+          <div className="bg-card border rounded-lg p-6 mb-6 hidden">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-semibold">Your API Websites</h2>
               <Button 
@@ -269,6 +282,13 @@ export default function DashboardPage() {
               </div>
             )}
           </div>
+
+<TabList websites={websites} onAddWebsite={handleAddWebsite} isLoading={isLoadingWebsites}/>
+
+          {/* Monitoring Insights */}
+          {/* <div className="my-8 hidden">
+            <InsightsOverview websites={websitesOverviewData} />
+          </div> */}
         </div>
       </div>
 

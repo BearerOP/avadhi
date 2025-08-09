@@ -1,3 +1,4 @@
+import { client } from "store/client"
 
 export enum WebsiteTickStatus {
   UP = "UP",
@@ -8,8 +9,7 @@ export enum WebsiteTickStatus {
 // Real database integration functions
 export async function getWebsiteById(id: string): Promise<WebsiteWithTicks | null> {
   try {
-    const { client: prisma } = await import("store/client")
-    const website = await prisma.website.findUnique({
+    const website = await client.website.findUnique({
       where: { id },
     })
     return website as WebsiteWithTicks | null
@@ -21,8 +21,7 @@ export async function getWebsiteById(id: string): Promise<WebsiteWithTicks | nul
 
 export async function getWebsitesByUserId(userId: string): Promise<WebsiteWithTicks[]> {
   try {
-    const { client: prisma } = await import("store/client")
-    const websites = await prisma.website.findMany({
+    const websites = await client.website.findMany({
       where: { user_id: userId },
       orderBy: { createdAt: "desc" },
     })
@@ -35,10 +34,9 @@ export async function getWebsitesByUserId(userId: string): Promise<WebsiteWithTi
 
 export async function getWebsiteTicks(websiteId: string, limit = 50, hours = 24): Promise<WebsiteTickData[]> {
   try {
-    const { client: prisma } = await import("store/client")
     const since = new Date(Date.now() - hours * 60 * 60 * 1000)
 
-    const ticks = await prisma.websiteTick.findMany({
+    const ticks = await client.websiteTick.findMany({
       where: {
         website_id: websiteId,
         createdAt: {
@@ -61,11 +59,10 @@ export async function getWebsiteTicks(websiteId: string, limit = 50, hours = 24)
 
 export async function calculateWebsiteInsights(websiteId: string): Promise<WebsiteInsights> {
   try {
-    const { client: prisma } = await import("store/client")
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
 
     // Get all ticks for the last 30 days
-    const ticks = await prisma.websiteTick.findMany({
+    const ticks = await client.websiteTick.findMany({
       where: {
         website_id: websiteId,
         createdAt: {
@@ -189,8 +186,7 @@ export async function calculateWebsiteInsights(websiteId: string): Promise<Websi
 
 export async function getLatestWebsiteStatus(websiteId: string): Promise<WebsiteTickStatus> {
   try {
-    const { client: prisma } = await import("store/client")
-    const latestTick = await prisma.websiteTick.findFirst({
+    const latestTick = await client.websiteTick.findFirst({
       where: { website_id: websiteId },
       orderBy: { createdAt: "desc" },
     })

@@ -43,7 +43,7 @@ export default function TabList({ websites, onAddWebsite, isLoading = false }: T
       <motion.div 
         layout
         transition={{ duration: 0.4, ease: "easeInOut" }}
-        className="relative mx-auto border rounded-xl max-h-[60vh] w-2xl bg-background overflow-hidden mb-12"
+        className="relative mx-auto border rounded-xl max-h-[60vh] min-w-2xl bg-background overflow-hidden mb-12"
       >
         <ScrollArea className="relative h-[500px] w-full overflow-scroll">
           <div className="flex flex-col gap-2 p-4 pb-18">
@@ -60,7 +60,7 @@ export default function TabList({ websites, onAddWebsite, isLoading = false }: T
                     router.push(`/dashboard/${website.id}`)
                   }}
                   key={website.id}
-                  className="flex min-h-20 w-full items-center justify-between rounded-xl bg-card border p-4 hover:bg-accent/50 transition-colors"
+                  className="flex min-h-20 w-full items-center justify-between rounded-xl bg-card border p-4 hover:bg-accent/50  hover:cursor-pointer hover:-translate-y-[2px] transition-all duration-300"
                 >
                   <div className="flex items-center gap-3">
                     <div className="relative">
