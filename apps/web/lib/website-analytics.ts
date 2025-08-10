@@ -1,4 +1,5 @@
 import { client } from "store/client"
+import { apiClient } from "./api-client"
 
 export enum WebsiteTickStatus {
   UP = "UP",
@@ -185,12 +186,9 @@ export async function calculateWebsiteInsights(websiteId: string): Promise<Websi
 
 export async function getLatestWebsiteStatus(websiteId: string): Promise<WebsiteTickStatus> {
   try {
-    const latestTick = await client.websiteTick.findFirst({
-      where: { website_id: websiteId },
-      orderBy: { createdAt: "desc" },
-    })
-
-    return latestTick?.status || WebsiteTickStatus.UNKNOWN
+    const res = await apiClient.getWebsiteTicks(websiteId, 50, 24 * 7)
+    const latest = (res.data && (res.data as any[])[0]) || null
+    return (latest?.status as WebsiteTickStatus) || WebsiteTickStatus.UNKNOWN
   } catch (error) {
     console.error("Error fetching latest website status:", error)
     return WebsiteTickStatus.UNKNOWN

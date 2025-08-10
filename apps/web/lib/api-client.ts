@@ -133,6 +133,8 @@ class AuthenticatedApiClient {
 
   // Get website ticks
   async getWebsiteTicks(websiteId: string, limit = 50, hours = 24): Promise<ApiResponse<any[]>> {
+    console.log(websiteId,'websiteId');
+    
     return this.request<any[]>(`/website/${websiteId}/ticks?limit=${limit}&hours=${hours}`);
   }
 
