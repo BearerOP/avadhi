@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Heart, Github, Mail, Globe } from "lucide-react";
+import Image from "next/image";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -21,6 +22,7 @@ const Footer = () => {
           {/* Logo and tagline */}
           <div className="flex flex-col items-center md:items-start gap-2">
             <div className="flex items-center gap-2">
+              <Image src="/icon.svg" alt="Avadhi" width={16} height={16} />
               <span className="text-xl font-bold tracking-tight">
                 Avadhi
               </span>

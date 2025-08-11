@@ -5,15 +5,23 @@ import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "sonner";
 import React from "react";
 import { AuthProvider } from "../contexts/AuthContext";
+import { ThemeProvider } from "../components/themeProvider";
+import Navbar from "../components/core-ui/Navbar";
+import Footer from "../components/core-ui/Footer";
 
 
 export const metadata: Metadata = {
   title: "Avadhi",
   description: "Get your website status in real-time and get notified when they are down.",
+  icons: [
+    {
+      rel: 'icon',
+      type: 'image/x-icon',
+      url: '/favicon.ico',
+      media: '(prefers-color-scheme: light)',
+    },
+  ],
 };
-import { ThemeProvider } from "../components/themeProvider";
-import Navbar from "../components/core-ui/Navbar";
-import Footer from "../components/core-ui/Footer";
 
 const fontSans = Poppins({
   subsets: ["latin"],
@@ -32,7 +40,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <NextTopLoader color="#85ffc7" height={2} />
             <Navbar />
-
             {children}
             <Footer />
             <Toaster richColors position="bottom-center" />

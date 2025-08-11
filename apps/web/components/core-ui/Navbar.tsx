@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import SignInModal from "./SignInModal";
 import UserProfile from "./UserProfile";
+import Image from "next/image";
 
 export default function Navbar() {
     const [isSignInModalOpen, setIsSignInModalOpen] = useState<boolean>(false);
@@ -42,6 +43,7 @@ export default function Navbar() {
                 <Link href={"/"} className="flex items-center gap-2 cursor-pointer">
                     <span className="
                     inline-flex items-center gap-2 text-green-200/80 font-bold  rounded-lg uppercase tracking-widest shadow-2xl  text-xs sm:text-sm p-2">
+                        <Image src="/icon.svg" alt="Avadhi" width={16} height={16} />
                         <svg
                             className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 text-teal-300"
                             fill="currentColor"
