@@ -7,6 +7,8 @@
     "dev:api": "turbo run dev --filter=api",
     "dev:web": "turbo run dev --filter=web",
     "dev:docs": "turbo run dev --filter=docs",
+    "dev:pusher": "turbo run dev --filter=pusher",
+    "dev:worker": "turbo run dev --filter=worker",
     "start": "turbo run build && turbo run start",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",

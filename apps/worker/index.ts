@@ -63,16 +63,16 @@ async function fetchWebsite(url: string, websiteId: string) {
       await ensureRegionExists(REGION_ID);
       
       const startTime = Date.now();
-
       axios.get(url)
-          .then(async () => { 
+          .then(async (response) => { 
               const endTime = Date.now();
+              console.log(response,'response');
               const websiteTick = await prismaClient.websiteTick.create({
                   data: {
                       response_time_ms: endTime - startTime,
                       status: "UP",
-                      status_code: 200,
-                      status_text: "OK",
+                      status_code: response.status,
+                      status_text: response.statusText,
                       region_id: REGION_ID,
                       website_id: websiteId
                   }
@@ -80,8 +80,10 @@ async function fetchWebsite(url: string, websiteId: string) {
               console.log(websiteTick,'Tick created in worker');
               resolve()
           })
-          .catch(async () => {
+          .catch(async (error) => {
               const endTime = Date.now();
+              // console.log('Error in fetchWebsite',error);
+              
                 const websiteTick = await prismaClient.websiteTick.create({
                   data: {
                       response_time_ms: endTime - startTime,
@@ -89,7 +91,9 @@ async function fetchWebsite(url: string, websiteId: string) {
                       status_code: 500,
                       status_text: "Internal Server Error",
                       region_id: REGION_ID,
-                      website_id: websiteId
+                      website_id: websiteId,
+                      error_message: error.message
+
                   }
               })
               console.log(websiteTick,'Tick created in worker');

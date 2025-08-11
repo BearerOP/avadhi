@@ -38,7 +38,7 @@ const Footer = () => {
           {/* Links */}
           <div className="flex items-center gap-6">
             <Link 
-              href="https://github.com" 
+              href="https://github.com/bearerop/avadhi" 
               className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               target="_blank"
               rel="noopener noreferrer"
@@ -47,7 +47,7 @@ const Footer = () => {
               <span className="hidden sm:inline">GitHub</span>
             </Link>
             <Link 
-              href="mailto:hello@avadhi.dev" 
+              href="mailto:work.ankit189@gmail.com" 
               className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               <Mail className="w-4 h-4" />
@@ -67,7 +67,7 @@ const Footer = () => {
             <span>© {currentYear} Avadhi</span>
             <span className="text-teal-400">•</span>
             <span>Made with</span>
-            <Heart className="w-4 h-4 text-red-400 fill-current" />
+            <Heart className="w-4 h-4 text-teal-400 fill-current" />
           </div>
         </div>
       </div>

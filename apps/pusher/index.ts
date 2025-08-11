@@ -16,9 +16,9 @@ async function main() {
 }
 
 // // Run once now
-main().catch(console.error);
+// main().catch(console.error);
 
 
 setInterval(() => {
   main().catch(console.error);
-}, 3 * 60 * 1000);
+}, 5 * 60 * 1000); // Every 5 minutes
