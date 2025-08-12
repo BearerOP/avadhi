@@ -9,7 +9,21 @@
   ],
   "exports": {
     ".": "./dist/index.js",
-    "./styles.css": "./dist/index.css"
+    "./styles.css": "./dist/index.css",
+    "./card": "./dist/card.js",
+    "./gradient": "./dist/gradient.js",
+    "./turborepo-logo": "./dist/turborepo-logo.js",
+    "./button": "./dist/button.js",
+    "./badge": "./dist/badge.js",
+    "./input": "./dist/input.js",
+    "./label": "./dist/label.js",
+    "./scroll-area": "./dist/scroll-area.js",
+    "./select": "./dist/select.js",
+    "./separator": "./dist/separator.js",
+    "./tabs": "./dist/tabs.js",
+    "./toast": "./dist/toast.js",
+    "./prog-blur": "./dist/prog-blur.js",
+    "./lib/utils": "./dist/lib/utils.js"
   },
   "license": "MIT",
   "scripts": {
