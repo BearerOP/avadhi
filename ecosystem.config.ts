@@ -4,8 +4,8 @@ module.exports = {
       {
         name: 'api',
         cwd: './apps/api', // path to backend
-        script: 'npm',
-        args: 'bun', // or your backend start command
+        script: 'bun',
+        args: 'start', // or your backend start command
         env: {
           NODE_ENV: 'production',
         },
