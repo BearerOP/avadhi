@@ -1,18 +1,19 @@
 import { createClient } from "redis";
-// export const client = createClient();
+import dotenv from 'dotenv';
+dotenv.config();
 
-
+  
 export const client = createClient({
-  username: 'bearer',
-  password: 'bearerOP@123',
+  username: process.env.REDIS_USERNAME || '',
+  password: process.env.REDIS_PASSWORD || '',
   socket: {
-    host: 'redis-11186.c212.ap-south-1-1.ec2.redns.redis-cloud.com',
-    port: 11186
+    host: process.env.REDIS_HOST || '',
+    port: parseInt(process.env.REDIS_PORT || '6379')
   }
 });
+
 client.on("error", (err) => console.log("Redis Client Error", err));
 await client.connect();
-
 
 type WebsiteEvent = { url: string, id: string }
 type MessageType = {
@@ -36,9 +37,6 @@ async function xAdd({ url, id }: WebsiteEvent) {
   }
 }
 
-
-
-
 export async function xAddBulk(websites: WebsiteEvent[]) {
   await Promise.all(
     websites.map(website => xAdd({
@@ -48,24 +46,18 @@ export async function xAddBulk(websites: WebsiteEvent[]) {
   );
 }
 
-
-
 export async function xReadGroup(consumerGroup: string, workerId: string): Promise<MessageType[] | undefined> {
   const res = await client.xReadGroup(
     consumerGroup, workerId, {
-    key: STREAM_NAME,
-    id: '>'
-  }, {
-    'COUNT': 50
-  }
+      key: STREAM_NAME,
+      id: '>'
+    }, {
+      COUNT: 50
+    }
   );
 
-  
-  //@ts-ignore
+  // @ts-ignore
   let messages: MessageType[] | undefined = res?.[0]?.messages;
-
-
-  // console.log(messages?.length,'in redis be');
   return messages;
 }
 
@@ -74,5 +66,5 @@ async function xAck(consumerGroup: string, eventId: string) {
 }
 
 export async function xAckBulk(consumerGroup: string, eventIds: string[]) {
-  eventIds.map(eventId => xAck(consumerGroup, eventId));
+  await Promise.all(eventIds.map(eventId => xAck(consumerGroup, eventId)));
 }

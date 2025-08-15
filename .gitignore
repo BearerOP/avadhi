@@ -7,7 +7,14 @@ node_modules
 
 # testing
 coverage
-
+.env.production
+.env.prod
+.env.development
+.env.test
+.env.staging
+.env.local
+.env.production.local
+.env.development.local
 # next.js
 .next/
 out/
