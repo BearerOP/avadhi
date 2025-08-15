@@ -86,7 +86,8 @@ class AuthenticatedApiClient {
           responseText: textResponse.substring(0, 500) // Limit response text
         };
       }
-      
+      console.log(data,'data');
+
       if (!response.ok) {
         throw new Error(data.message || `HTTP ${response.status}: ${response.statusText}`);
       }

@@ -211,6 +211,7 @@ export async function getWebsiteOverviewData(userId: string): Promise<WebsiteOve
           calculateWebsiteInsights(website.id)
         ])
 
+        
         return {
           ...website,
           currentStatus,

@@ -66,7 +66,7 @@ async function fetchWebsite(url: string, websiteId: string) {
       axios.get(url)
           .then(async (response) => { 
               const endTime = Date.now();
-              console.log(response,'response');
+              // console.log(response,'response');
               const websiteTick = await prismaClient.websiteTick.create({
                   data: {
                       response_time_ms: endTime - startTime,
@@ -92,7 +92,7 @@ async function fetchWebsite(url: string, websiteId: string) {
                       status_text: "Internal Server Error",
                       region_id: REGION_ID,
                       website_id: websiteId,
-                      error_message: error.message
+                      error_message: error.message || "Unknown error"
 
                   }
               })

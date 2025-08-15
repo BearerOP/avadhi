@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import SignInModal from "./SignInModal";
 import UserProfile from "./UserProfile";
 import Image from "next/image";
+import { ThemeToggleButton } from "../themeToggleButton";
 
 export default function Navbar() {
     const [isSignInModalOpen, setIsSignInModalOpen] = useState<boolean>(false);
@@ -97,6 +98,7 @@ export default function Navbar() {
                             </div>
                         </div>
                     )}
+                    <ThemeToggleButton variant="circle-blur" start="top-right" />
                 </div>
             </div>
         </motion.nav>

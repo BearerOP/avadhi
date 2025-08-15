@@ -5,7 +5,7 @@ import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "sonner";
 import React from "react";
 import { AuthProvider } from "../contexts/AuthContext";
-import { ThemeProvider } from "../components/themeProvider";
+import { ThemeProvider } from "../providers/themeProvider";
 import Navbar from "../components/core-ui/Navbar";
 import Footer from "../components/core-ui/Footer";
 
@@ -37,7 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
         className={`${fontSans.className} min-h-screen bg-neutral-50 dark:bg-neutral-950 overflow-x-hidden antialiased `}
       >
         <AuthProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <NextTopLoader color="#85ffc7" height={2} />
             <Navbar />
             {children}

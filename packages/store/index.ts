@@ -11,7 +11,7 @@ dotenv.config();
 export const prismaClient = new PrismaClient({
   datasources: {
     db: {
-      url: 'postgresql://postgres:postgres@localhost:5433/avadhi?schema=public'
+      url: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/avadhi'
     }
   },
   log: process.env.NODE_ENV === 'development' ? ['query', 'error'] : ['error'],

@@ -53,6 +53,9 @@ export default async function DashboardPage({ params }: PageProps) {
       getLatestWebsiteStatus(id),
     ])
 
+    console.log(currentStatus,'currentStatus');
+    
+
     return <WebsiteDashboard website={website} insights={insights} ticks={ticks} currentStatus={currentStatus} />
   } catch (error) {
     console.error("Error loading website data:", error)

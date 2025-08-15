@@ -20,12 +20,15 @@ export default function Landing() {
   const [websites, setWebsites] = useState<Website[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
+  
   // Fetch user's websites
   const fetchWebsites = useCallback( async () => {
     if (!session?.user) {
       console.log('session?.user',session?.user);
-      return}
-    
+      return
+    }
+      console.log(session,'session');
+      
     setIsLoading(true)
     try {
       const response = await apiClient.getWebsites()

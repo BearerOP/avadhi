@@ -78,7 +78,7 @@ export default function TabList({ websites, onAddWebsite, isLoading = false }: T
                     </div>
                     <div className="flex flex-col">
                       <h3 className="font-medium text-sm">{website.name}</h3>
-                      <p className="text-xs text-muted-foreground">{website.url}</p>
+                      <p className="text-xs text-muted-foreground truncate max-w-[350px]">{website.url}</p>
                     </div>
                   </div>
 
@@ -100,7 +100,7 @@ export default function TabList({ websites, onAddWebsite, isLoading = false }: T
           </div>
         </ScrollArea>
         <ProgressiveBlur className=" absolute inset-x-0 bottom-0 z-[49] rounded-b-xl" position="bottom" height="10%" />
-        <ProgressiveBlur className=" absolute inset-x-0 top-0 z-[49] rounded-t-xl" position="top" height="10%" />
+        {/* <ProgressiveBlur className=" absolute inset-x-0 top-0 z-[49] rounded-t-xl" position="top" height="10%" /> */}
 
       </motion.div>
     </motion.div>

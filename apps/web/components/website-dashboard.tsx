@@ -119,7 +119,7 @@ export default function WebsiteDashboard({ website, insights, ticks, currentStat
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Link className="cursor-pointer" href="/dashboard">
+              <Link className="absolute left-10 -top-10 cursor-pointer" href="/dashboard">
                 <Button variant="ghost" size="sm" className="gap-2 cursor-pointer">
                   <ArrowLeft className="h-4 w-4" />
                   Back to Dashboard
@@ -141,15 +141,15 @@ export default function WebsiteDashboard({ website, insights, ticks, currentStat
             </div>
 
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" onClick={handleRefresh} disabled={isRefreshing}>
+              <Button variant="outline" className="rounded-md" size="sm" onClick={handleRefresh} disabled={isRefreshing}>
                 <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? "animate-spin" : ""}`} />
-                Refresh Demo
+                Refresh
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" className="rounded-md" size="sm">
                 <Download className="h-4 w-4 mr-2" />
-                Export Demo
+                Export
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" className="rounded-md" size="sm">
                 <Settings className="h-4 w-4 mr-2" />
                 Settings
               </Button>

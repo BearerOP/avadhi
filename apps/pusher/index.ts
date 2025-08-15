@@ -16,8 +16,7 @@ async function main() {
 }
 
 // // Run once now
-// main().catch(console.error);
-
+main().catch(console.error);
 
 setInterval(() => {
   main().catch(console.error);
