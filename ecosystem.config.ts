@@ -1,9 +1,10 @@
-    
+// ecosystem.config.js
+
 module.exports = {
     apps: [
       {
         name: 'api',
-        cwd: './apps/api', // path to backend
+        cwd: '/home/ubuntu/avadhi/apps/api', // absolute path recommended for PM2
         script: 'bun',
         args: 'start', // or your backend start command
         env: {
@@ -12,7 +13,7 @@ module.exports = {
       },
       {
         name: 'web',
-        cwd: './apps/web', // path to frontend
+        cwd: '/home/ubuntu/avadhi/apps/web', // absolute path recommended for PM2
         script: 'bun',
         args: 'start', // or your frontend start command
         env: {
@@ -21,7 +22,7 @@ module.exports = {
       },
       {
         name: 'worker',
-        cwd: './apps/worker', // path to worker
+        cwd: '/home/ubuntu/avadhi/apps/worker', // absolute path recommended for PM2
         script: 'bun',
         args: 'start', // or your worker start command
         env: {
@@ -30,7 +31,7 @@ module.exports = {
       },
       {
         name: 'pusher',
-        cwd: './apps/pusher', // path to pusher
+        cwd: '/home/ubuntu/avadhi/apps/pusher', // absolute path recommended for PM2
         script: 'bun',
         args: 'start', // or your pusher start command
         env: {

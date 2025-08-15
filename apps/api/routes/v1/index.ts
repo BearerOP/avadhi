@@ -3,6 +3,7 @@ import usersRouter from "./users";
 import websitesRouter from "./websites";
 import profileRouter from "./profile";
 import authRouter from "./auth";
+import notifyRouter from "./notify";
 
 
 const v1Router = Router();
@@ -21,6 +22,7 @@ v1Router.use("/user", usersRouter);
 v1Router.use("/website", websitesRouter);
 v1Router.use("/profile", profileRouter);
 v1Router.use("/auth", authRouter);
+v1Router.use("/notify", notifyRouter);
     
 
 export default v1Router;
