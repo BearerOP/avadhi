@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 export default function Hero() {
   return (
-    <div className="flex flex-col gap-4 h-[50vh] md:h-[66vh] size-screen mx-auto justify-center">
+    <div className="flex flex-col gap-4 h-[50vh] md:h-[66vh] size-screen mx-auto justify-center z-10">
       <motion.div
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeInOut", type: "spring", damping: 10, delay: 0.3 }}

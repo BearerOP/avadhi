@@ -36,14 +36,14 @@ export default function TabList({ websites, onAddWebsite, isLoading = false }: T
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-      className="space-y-4"
+      className="space-y-4 z-10"
     >
       <AddWebsite addNewWebsite={onAddWebsite} />
 
       <motion.div 
         layout
         transition={{ duration: 0.4, ease: "easeInOut" }}
-        className="relative mx-auto border rounded-xl max-h-[60vh] min-w-2xl bg-background overflow-hidden mb-12"
+        className="relative mx-auto border rounded-xl max-h-[60vh] min-w-2xl bg-background overflow-hidden mb-12 z-10"
       >
         <ScrollArea className="relative h-[500px] w-full overflow-scroll">
           <div className="flex flex-col gap-2 p-4 pb-18">

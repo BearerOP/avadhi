@@ -25,7 +25,7 @@ const app = express();
 
 // CORS configuration to allow frontend requests
 app.use(cors({
-  origin: ['http://localhost:3001', 'http://localhost:3000'], // Allow both possible frontend ports
+  origin: ['http://localhost:3001', 'http://localhost:3000','https://avadhi.pro', 'https://api.avadhi.pro'], // Allow both possible frontend ports and API subdomain
   credentials: true, // Allow cookies to be sent
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
