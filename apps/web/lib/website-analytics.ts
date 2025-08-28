@@ -132,7 +132,7 @@ export async function calculateWebsiteInsights(websiteId: string): Promise<Websi
 
     // Calculate region-specific stats
     const regionMap = new Map<string, WebsiteTickData[]>()
-    ticks.forEach((tick: WebsiteTickData) => {
+    ticks.forEach((tick: WebsiteTickData | any) => {
       const regionName = tick.Region.name
       if (!regionMap.has(regionName)) {
         regionMap.set(regionName, [])
@@ -161,7 +161,7 @@ export async function calculateWebsiteInsights(websiteId: string): Promise<Websi
       uptime: Math.round(uptime * 100) / 100,
       avgResponseTime: Math.round(avgResponseTime),
       totalChecks: ticks.length,
-      lastCheck: ticks.length > 0 ? ticks[0].createdAt : null,
+      lastCheck: ticks.length > 0 && ticks[0] ? ticks[0]?.createdAt : null,
       downtimeEvents,
       longestDowntime,
       fastestResponse,
@@ -483,7 +483,7 @@ export function calculateDemoInsights(websiteId: string): WebsiteInsights {
   }
 
   // Calculate uptime
-  const upTicks = ticks.filter((tick) => tick.status === WebsiteTickStatus.UP)
+  const upTicks = ticks.filter((tick: WebsiteTickData) => tick.status === WebsiteTickStatus.UP)
   const uptime = (upTicks.length / ticks.length) * 100
 
   // Calculate average response time (only for successful requests)

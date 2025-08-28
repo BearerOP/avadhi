@@ -28,8 +28,8 @@ export default function AddWebsite({ addNewWebsite }: AddWebsiteProps) {
   };
 
   return (
-    <div className="flex flex-col mx-auto max w-2xl">
-      <div className="flex justify-center p-4 border rounded-3xl bg-background">
+    <div className="flex flex-col w-full max-w-2xl mx-auto px-0">
+      <div className="flex justify-center p-3 sm:p-4 border rounded-2xl sm:rounded-3xl bg-background">
         <Button
           onClick={(e) => {
            e.stopPropagation();
@@ -48,7 +48,7 @@ export default function AddWebsite({ addNewWebsite }: AddWebsiteProps) {
               }, 100);
             }
           }}}
-          className="transition-all duration-300 border border-dashed border-teal-500 bg-transparent hover:bg-teal-950 text-muted-foreground flex min-h-20 w-full items-center justify-center rounded-xl cursor-pointer"
+          className="transition-all duration-300 border border-dashed border-teal-500 bg-transparent hover:bg-teal-950 text-muted-foreground flex min-h-16 sm:min-h-20 w-full items-center justify-center rounded-xl cursor-pointer text-sm sm:text-base"
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Website

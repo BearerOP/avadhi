@@ -75,7 +75,7 @@ export default function Landing() {
   return (
     <div className="flex flex-col min-h-screen bg-background overflow-hidden bg-gradient-to-b from-background to-teal-950/20 ">
       <Hero/>
-      <div className='flex flex-col items-center justify-center max-w-7xl mx-auto gap-4 px-4 py-8'>
+      <div className='flex flex-col items-center justify-center w-full max-w-2xl mx-auto gap-4 px-4 py-4 sm:p-4'>
       <TabList 
         websites={session?.user ? websites : []}
         onAddWebsite={handleAddWebsite}

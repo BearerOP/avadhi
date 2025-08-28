@@ -63,6 +63,7 @@ class AuthenticatedApiClient {
           ...options.headers,
         },
         credentials: 'include', // Important: Include cookies for NextAuth session
+        // cache: 'no-store',
       });
 
       // Check if response is JSON before parsing

@@ -83,17 +83,17 @@ export default function AddWebsitePopup({ isOpen, onClose, onSubmit }: AddWebsit
           animate={{ opacity: 1, height: "auto", y: 0 }}
           exit={{ opacity: 0, height: 0, y: -20 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="mt-4 mx-auto w-[50vw] bg-background border rounded-2xl shadow-2xl overflow-hidden"
+          className="mt-4 mx-auto w-full bg-background border rounded-2xl shadow-2xl overflow-hidden"
         >
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, delay: 0.1 }}
-            className="p-6"
+            className="p-4 sm:p-6"
           >
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-foreground">Add New Website</h3>
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
+              <h3 className="text-base sm:text-lg font-semibold text-foreground">Add New Website</h3>
               <Button
                 variant="ghost"
                 size="sm"
@@ -104,10 +104,10 @@ export default function AddWebsitePopup({ isOpen, onClose, onSubmit }: AddWebsit
               </Button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
               {/* Website URL Field */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">
+                <label className="text-xs sm:text-sm font-medium text-foreground">
                   Original Website URL
                 </label>
                 <input
@@ -115,7 +115,7 @@ export default function AddWebsitePopup({ isOpen, onClose, onSubmit }: AddWebsit
                   value={formData.url}
                   onChange={(e) => setFormData(prev => ({ ...prev, url: e.target.value }))}
                   placeholder="https://example.com"
-                  className="w-full px-3 py-2 bg-background border border-border rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-colors text-foreground placeholder:text-muted-foreground"
+                  className="w-full px-3 py-2 text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-colors text-foreground placeholder:text-muted-foreground"
                   required
                 />
                 {errors.url && (
@@ -125,7 +125,7 @@ export default function AddWebsitePopup({ isOpen, onClose, onSubmit }: AddWebsit
 
               {/* Alias Name Field */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">
+                <label className="text-xs sm:text-sm font-medium text-foreground">
                   Alias Name
                 </label>
                 <input
@@ -133,7 +133,7 @@ export default function AddWebsitePopup({ isOpen, onClose, onSubmit }: AddWebsit
                   value={formData.alias}
                   onChange={(e) => setFormData(prev => ({ ...prev, alias: e.target.value }))}
                   placeholder="My Website"
-                  className="w-full px-3 py-2 bg-background border border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors text-foreground placeholder:text-muted-foreground"
+                  className="w-full px-3 py-2 text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors text-foreground placeholder:text-muted-foreground"
                   required
                 />
                 {errors.alias && (
@@ -143,13 +143,13 @@ export default function AddWebsitePopup({ isOpen, onClose, onSubmit }: AddWebsit
 
               {/* Notification System Dropdown */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">
+                <label className="text-xs sm:text-sm font-medium text-foreground">
                   Notification System
                 </label>
                 <select
                   value={formData.notificationSystem}
                   onChange={(e) => setFormData(prev => ({ ...prev, notificationSystem: e.target.value as NotificationSystem }))}
-                  className="w-full px-3 py-2 bg-background border border-border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-colors text-foreground"
+                  className="w-full px-3 py-2 text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-colors text-foreground"
                 >
                   <option value="none">None</option>
                   <option value="email">Email</option>
@@ -158,18 +158,18 @@ export default function AddWebsitePopup({ isOpen, onClose, onSubmit }: AddWebsit
               </div>
 
               {/* Submit Buttons */}
-              <div className="flex gap-3 pt-4">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-3 sm:pt-4">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={handleClose}
-                  className="flex-1 rounded-xl border-teal-500 cursor-pointer"
+                  className="flex-1 rounded-xl border-teal-500 cursor-pointer text-sm sm:text-base"
                 >
                   Cancel
                 </Button>
                 <Button
                   type="submit"
-                  className="flex-1 rounded-xl cursor-pointer bg-teal-600 hover:bg-teal-700 text-white"
+                  className="flex-1 rounded-xl cursor-pointer bg-teal-600 hover:bg-teal-700 text-white text-sm sm:text-base"
                 >
                   Add Website
                 </Button>

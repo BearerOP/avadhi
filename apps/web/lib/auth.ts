@@ -4,6 +4,9 @@ import GitHubProvider from "next-auth/providers/github"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { prismaClient } from "store/client"
 
+// Environment-based configuration
+const isProduction = process.env.NODE_ENV === 'production'
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prismaClient),
   providers: [
@@ -19,37 +22,39 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/', // Custom sign-in page
   },
-  cookies: {
-    sessionToken: {
-      name: '__Secure-next-auth.session-token',
-      options: {
-        domain: '.avadhi.pro',
-        path: '/',
-        httpOnly: true,
-        secure: true,
-        sameSite: 'lax'
-      }
-    },
-    callbackUrl: {
-      name: '__Secure-next-auth.callback-url',
-      options: {
-        domain: '.avadhi.pro',
-        path: '/',
-        httpOnly: true,
-        secure: true,
-        sameSite: 'lax'
-      }
-    },
-    csrfToken: {
-      name: '__Host-next-auth.csrf-token',
-      options: {
-        path: '/',
-        httpOnly: true,
-        secure: true,
-        sameSite: 'lax'
+  ...(isProduction && {
+    cookies: {
+      sessionToken: {
+        name: '__Secure-next-auth.session-token',
+        options: {
+          domain: '.avadhi.pro',
+          path: '/',
+          httpOnly: true,
+          secure: true,
+          sameSite: 'lax'
+        }
+      },
+      callbackUrl: {
+        name: '__Secure-next-auth.callback-url',
+        options: {
+          domain: '.avadhi.pro',
+          path: '/',
+          httpOnly: true,
+          secure: true,
+          sameSite: 'lax'
+        }
+      },
+      csrfToken: {
+        name: '__Host-next-auth.csrf-token',
+        options: {
+          path: '/',
+          httpOnly: true,
+          secure: true,
+          sameSite: 'lax'
+        }
       }
     }
-  },
+  }),
   callbacks: {
     async signIn({ user, account, profile }: any) {
       // Simply allow sign-in - let PrismaAdapter handle everything
